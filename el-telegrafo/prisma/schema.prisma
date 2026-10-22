@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id              String   @id @default(cuid())
+  title           String
+  header          String
+  content         String   @db.Text
+  featuredImage   String
+  section         Section
+  authorId        String
+  author          Author   @relation(fields: [authorId], references: [id])
+  published       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Author {
+  id          String    @id @default(cuid())
+  name        String
+  profilePic  String?
+  bio         String?
+  isFeatured  Boolean   @default(false)
+  articles    Article[]
+}
+
+model Advertisement {
+  id          String   @id @default(cuid())
+  name        String
+  adCode      String   @db.Text
+  location    String
+  isActive    Boolean  @default(true)
+}
+
+enum Section {
+  ECONOMIA
+  LOCAL
+  REGIONAL
+  MUNDO
+  PAIS
+  POLITICA
+  SOCIEDAD
+}
