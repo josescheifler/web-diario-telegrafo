@@ -9,7 +9,12 @@ import { redirect } from 'next/navigation'
 
 export async function loginAdmin(prevState: any, formData: FormData) {
   const password = formData.get('password') as string
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'telegrafo123'
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+
+  // Verificación estricta: lee la variable de Netlify sin texto plano en el código
+  if (!ADMIN_PASSWORD) {
+    return { error: 'ADMIN_PASSWORD no está configurada en las variables de entorno.' }
+  }
 
   if (password === ADMIN_PASSWORD) {
     const cookieStore = await cookies()
@@ -34,7 +39,6 @@ export async function logoutAdmin() {
 // --- AUTORES ---
 
 export async function getAutores() {
-  // Ordenamos por nombre alfabético porque Author no tiene createdAt
   return await prisma.author.findMany({
     orderBy: { name: 'asc' }
   })
