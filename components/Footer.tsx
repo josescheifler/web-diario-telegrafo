@@ -1,7 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 export default function Footer() {
-  const year = new Date().getFullYear()
+  const [year, setYear] = useState<number>(2026)
+
+  useEffect(() => {
+    setYear(new Date().getFullYear())
+  }, [])
 
   return (
     <footer className="bg-[#0a192f] text-white border-t-4 border-[#D4AF37] font-serif mt-auto">
@@ -69,7 +76,7 @@ export default function Footer() {
       {/* Franja Inferior */}
       <div className="border-t border-gray-800 py-4 px-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 font-sans gap-2">
-          <p suppressHydrationWarning>
+          <p>
             © {year} El Telégrafo de Los Charrúas. Todos los derechos reservados.
           </p>
           <Link 
