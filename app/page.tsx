@@ -92,17 +92,22 @@ export default function Home() {
       {/* Cabecera del Diario */}
       <header className="bg-[#0a192f] text-white">
         <div className="container mx-auto px-4 py-6 flex flex-col items-center border-b border-[#D4AF37]/30">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="/" className="flex items-center gap-4 group text-center flex-col sm:flex-row">
             <img 
               src="/favicon.ico" 
-              alt="El Telégrafo" 
+              alt="El Telégrafo de Los Charrúas" 
               className="w-12 h-12 md:w-16 md:h-16 object-contain" 
             />
-            <h1 className="text-4xl md:text-7xl font-black text-[#D4AF37] tracking-widest uppercase font-[family-name:var(--font-cinzel)] group-hover:opacity-90 transition">
-              El Telégrafo
-            </h1>
+            <div className="flex flex-col items-center sm:items-start">
+              <h1 className="text-3xl md:text-6xl font-black text-[#D4AF37] tracking-widest uppercase font-[family-name:var(--font-cinzel)] group-hover:opacity-90 transition leading-none">
+                El Telégrafo
+              </h1>
+              <span className="text-xs md:text-sm font-bold tracking-[0.3em] text-[#D4AF37]/80 uppercase font-sans mt-1">
+                De Los Charrúas
+              </span>
+            </div>
           </Link>
-          <div className="text-sm text-gray-300 font-sans tracking-widest mt-2">
+          <div className="text-sm text-gray-300 font-sans tracking-widest mt-3">
             <Fecha />
           </div>
         </div>

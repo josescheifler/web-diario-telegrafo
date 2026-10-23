@@ -3,12 +3,11 @@ import Link from 'next/link'
 export default function TerminosPrivacidadPage() {
   return (
     <div className="min-h-screen bg-white text-[#0a192f]">
-      {/* Cabecera Clásica */}
       <header className="bg-[#0a192f] text-white p-4 text-center border-b border-[#D4AF37]/30">
         <Link href="/" className="inline-flex items-center gap-3">
-          <img src="/favicon.ico" alt="El Telégrafo" className="w-8 h-8 object-contain" />
-          <h2 className="text-2xl md:text-3xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
-            El Telégrafo
+          <img src="/favicon.ico" alt="El Telégrafo de Los Charrúas" className="w-8 h-8 object-contain" />
+          <h2 className="text-xl md:text-2xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
+            El Telégrafo de Los Charrúas
           </h2>
         </Link>
       </header>
@@ -16,7 +15,7 @@ export default function TerminosPrivacidadPage() {
       <main className="max-w-4xl mx-auto px-4 py-12 font-serif bg-white text-[#0a192f]">
         <div className="border-b-4 border-[#D4AF37] pb-4 mb-8">
           <span className="text-xs uppercase font-sans tracking-widest text-[#D4AF37] font-bold block mb-1">
-            Marco Jurídico e Institucional
+            El Telégrafo de Los Charrúas • Marco Institucional
           </span>
           <h1 className="text-4xl md:text-5xl font-bold uppercase font-[family-name:var(--font-cinzel)] text-[#0a192f]">
             Términos y Privacidad
@@ -29,7 +28,7 @@ export default function TerminosPrivacidadPage() {
               1. Propiedad Intelectual
             </h2>
             <p>
-              Todos los artículos, notas, fotografías y elementos gráficos de <strong>El Telégrafo</strong> son propiedad exclusiva del medio o de sus redactores colaboradores. Queda prohibida la reproducción total o parcial sin mención fehaciente de la fuente y enlace directo a la publicación original.
+              Todos los artículos, notas, fotografías y elementos gráficos de <strong>El Telégrafo de Los Charrúas</strong> son propiedad exclusiva del medio o de sus redactores colaboradores. Queda prohibida la reproducción total o parcial sin mención fehaciente de la fuente y enlace directo a la publicación original.
             </p>
           </section>
 
@@ -38,7 +37,7 @@ export default function TerminosPrivacidadPage() {
               2. Protección de Datos Personales
             </h2>
             <p>
-              La información facilitada en formularios de contacto o cartas de lectores es tratada bajo estricta confidencialidad y no será comercializada, cedida ni transferida a terceros bajo ningún concepto, salvo requerimiento judicial expreso.
+              La información facilitada en formularios de contacto o cartas de lectores es tratada bajo estricta confidencialidad y no será comercializada ni cedida a terceros bajo ningún concepto, salvo requerimiento judicial expreso.
             </p>
           </section>
 
@@ -47,7 +46,7 @@ export default function TerminosPrivacidadPage() {
               3. Uso de Cookies
             </h2>
             <p>
-              Este sitio utiliza cookies técnicas indispensables para asegurar la sesión de usuario, optimizar los tiempos de carga y medir métricas anónimas de audiencia que permiten mejorar la navegación.
+              Este sitio utiliza cookies técnicas indispensables para asegurar la sesión de usuario, optimizar la navegación y medir métricas anónimas de audiencia que permiten mejorar el servicio informativo.
             </p>
           </section>
 
@@ -56,7 +55,7 @@ export default function TerminosPrivacidadPage() {
               4. Límites de Responsabilidad
             </h2>
             <p>
-              Las opiniones expresadas en columnas firmadas y cartas de lectores corresponden estrictamente a la visión de sus respectivos autores y no comprometen la posición institucional de <strong>El Telégrafo</strong>.
+              Las opiniones expresadas en columnas firmadas y cartas de lectores corresponden estrictamente a la visión de sus respectivos autores y no comprometen la postura institucional de <strong>El Telégrafo de Los Charrúas</strong>.
             </p>
           </section>
         </div>

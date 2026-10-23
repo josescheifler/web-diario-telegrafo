@@ -16,8 +16,8 @@ const cinzel = Cinzel({
 })
 
 export const metadata: Metadata = {
-  title: 'El Telégrafo | Portal Digital',
-  description: 'Diario digital El Telégrafo. Noticias de economía, política, sociedad y actualidad.',
+  title: 'El Telégrafo de Los Charrúas | Portal Digital',
+  description: 'Diario digital El Telégrafo de Los Charrúas. Noticias de actualidad, economía, política y sociedad regional.',
   icons: {
     icon: '/favicon.ico',
   },

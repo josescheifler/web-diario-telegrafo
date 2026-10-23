@@ -10,12 +10,11 @@ export default function PublicidadPage() {
 
   return (
     <div className="min-h-screen bg-white text-[#0a192f]">
-      {/* Cabecera Clásica */}
       <header className="bg-[#0a192f] text-white p-4 text-center border-b border-[#D4AF37]/30">
         <Link href="/" className="inline-flex items-center gap-3">
-          <img src="/favicon.ico" alt="El Telégrafo" className="w-8 h-8 object-contain" />
-          <h2 className="text-2xl md:text-3xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
-            El Telégrafo
+          <img src="/favicon.ico" alt="El Telégrafo de Los Charrúas" className="w-8 h-8 object-contain" />
+          <h2 className="text-xl md:text-2xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
+            El Telégrafo de Los Charrúas
           </h2>
         </Link>
       </header>
@@ -23,7 +22,7 @@ export default function PublicidadPage() {
       <main className="max-w-4xl mx-auto px-4 py-12 font-serif bg-white text-[#0a192f]">
         <div className="border-b-4 border-[#D4AF37] pb-4 mb-8">
           <span className="text-xs uppercase font-sans tracking-widest text-[#D4AF37] font-bold block mb-1">
-            Departamento Comercial • Media Kit
+            El Telégrafo de Los Charrúas • Departamento Comercial
           </span>
           <h1 className="text-4xl md:text-5xl font-bold uppercase font-[family-name:var(--font-cinzel)] text-[#0a192f]">
             Publicidad y Tarifas
@@ -31,10 +30,9 @@ export default function PublicidadPage() {
         </div>
 
         <p className="text-gray-700 mb-10 text-base leading-relaxed font-sans">
-          <strong>El Telégrafo</strong> ofrece soluciones de comunicación directa para empresas e instituciones que buscan visibilidad en una audiencia calificada de lectores de actualidad.
+          <strong>El Telégrafo de Los Charrúas</strong> ofrece soluciones de comunicación directa para empresas, comercios e instituciones que buscan visibilidad en una audiencia calificada de la localidad y la región.
         </p>
 
-        {/* Tabla de Espacios */}
         <div className="mb-12">
           <h3 className="text-xl font-bold uppercase font-sans tracking-wide text-[#0a192f] border-b border-gray-300 pb-2 mb-4">
             Espacios y Formatos Disponibles
@@ -61,13 +59,12 @@ export default function PublicidadPage() {
           </div>
         </div>
 
-        {/* Módulo de Contrataciones */}
         <div className="bg-gray-50 border-2 border-[#D4AF37] p-8 font-sans">
           <h3 className="font-serif text-2xl font-bold text-[#0a192f] mb-2 uppercase">
             Contrataciones y Tarifario
           </h3>
           <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-            Para solicitar nuestro tarifario completo y métricas de lectores mensuales, contacte directamente a la gerencia comercial:
+            Para solicitar nuestro tarifario publicitario o propuestas personalizadas de auspicio, contacte a la gerencia comercial:
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold">
             <div className="p-4 bg-white border border-gray-300 text-[#0a192f]">
