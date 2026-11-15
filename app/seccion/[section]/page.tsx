@@ -3,6 +3,8 @@ import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import Fecha from '@/components/Fecha'
+import AdSlot from '@/components/AdSlot'
+import type { Section } from '@prisma/client'
 
 // 1. Le decimos a Next.js exactamente qué URLs existen para evitar el error de pre-renderizado
 export function generateStaticParams() {
@@ -17,7 +19,7 @@ export function generateStaticParams() {
   ]
 }
 
-const sectionMap: Record<string, any> = {
+const sectionMap: Record<string, Section> = {
   'economia': 'ECONOMIA',
   'local': 'LOCAL',
   'regional': 'REGIONAL',
@@ -110,6 +112,7 @@ export default async function SeccionPage({ params }: { params: Promise<{ sectio
       </header>
 
       <main className="container mx-auto px-4 py-10">
+        <AdSlot location="CABECERA" className="mb-10" />
         <h2 className="text-3xl font-bold border-b-2 border-[#D4AF37] pb-2 mb-8 uppercase text-[#0a192f]">
           {cleanSection === 'pais' ? 'país' : cleanSection === 'economia' ? 'economía' : cleanSection === 'politica' ? 'política' : cleanSection}
         </h2>

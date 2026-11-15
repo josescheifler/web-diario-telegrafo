@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# El Telégrafo de Los Charrúas
 
-## Getting Started
+Sitio del diario digital. Next.js (App Router) + Prisma sobre PostgreSQL (Neon), desplegado en Netlify.
 
-First, run the development server:
+## Puesta en marcha
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npx prisma db push   # crea o actualiza las tablas en la base de datos
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variables de entorno
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Se definen en un archivo `.env` local y en el panel de Netlify (Site configuration → Environment variables).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Obligatoria | Para qué sirve |
+| --- | --- | --- |
+| `DATABASE_URL` | Sí | Conexión a PostgreSQL (Neon). |
+| `ADMIN_PASSWORD` | Sí | Contraseña del panel `/admin`. Usá una larga y que no se repita en otro lado. |
+| `SESSION_SECRET` | No | Texto aleatorio para firmar la sesión del panel. Si falta, la firma se deriva de `ADMIN_PASSWORD`. |
 
-## Learn More
+Cambiar `ADMIN_PASSWORD` (o `SESSION_SECRET`) cierra todas las sesiones abiertas del panel.
 
-To learn more about Next.js, take a look at the following resources:
+## Panel de administración
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`/admin` permite gestionar:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Notas**: redactar, publicar y borrar.
+- **Autores**: alta y baja.
+- **Publicidad**: cargar anuncios (imagen con enlace o código HTML), elegir su ubicación, pausarlos, editarlos y borrarlos.
 
-## Deploy on Vercel
+### Ubicaciones de publicidad
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Ubicación | Dónde aparece | Medida recomendada |
+| --- | --- | --- |
+| Banner superior | Arriba del contenido en portada, secciones y notas | 970 × 250 o 728 × 90 px |
+| Lateral de portada | Columna derecha de la portada | 300 × 250 o 300 × 600 px |
+| Dentro de la nota | Al final del cuerpo de cada noticia | 728 × 90 px |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Si hay varios anuncios activos en una misma ubicación se muestran todos, uno debajo del otro. Las ubicaciones se definen en `lib/ads.ts` y se muestran con el componente `components/AdSlot.tsx`.
+
+## Seguridad
+
+- La sesión del panel es una cookie firmada (`lib/session.ts`); no se puede fabricar sin el secreto del servidor.
+- Toda server action del panel empieza con `requireAdmin()` (`lib/auth.ts`). El middleware solo redirige páginas: no alcanza para proteger las acciones. **Cualquier acción nueva del panel tiene que llamar a `requireAdmin()`.**
+- El HTML de las notas y de los anuncios se limpia con `lib/sanitize.ts` antes de guardarse y de mostrarse.

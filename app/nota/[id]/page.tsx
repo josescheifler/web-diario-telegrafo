@@ -2,6 +2,8 @@ import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import AdSlot from '@/components/AdSlot'
+import { sanitizeArticleHtml } from '@/lib/sanitize'
 
 // Componente asíncrono que consulta Prisma y espera los params
 async function DetalleNota({ params }: { params: Promise<{ id: string }> }) {
@@ -12,7 +14,7 @@ async function DetalleNota({ params }: { params: Promise<{ id: string }> }) {
     include: { author: true }
   })
 
-  if (!article) return notFound()
+  if (!article || !article.published) return notFound()
 
   const fecha = new Date(article.createdAt).toLocaleDateString('es-AR', {
     year: 'numeric',
@@ -22,6 +24,7 @@ async function DetalleNota({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <main className="max-w-4xl mx-auto p-6 lg:p-12 bg-white text-[#0a192f] font-serif min-h-screen">
+      <AdSlot location="CABECERA" className="mb-10" />
       <span className="text-[#D4AF37] font-bold tracking-widest text-xs uppercase mb-2 block font-sans">
         {article.section}
       </span>
@@ -54,13 +57,16 @@ async function DetalleNota({ params }: { params: Promise<{ id: string }> }) {
         />
       )}
 
-      {/* Cuerpo de nota con la letra capital dorada */}
+      {/* Cuerpo de nota con la letra capital dorada.
+          El HTML se limpia siempre antes de mostrarse (ver lib/sanitize.ts). */}
       <div 
-        className="prose prose-lg max-w-none text-gray-800 
+        className="cuerpo-nota text-lg text-gray-800 
                    first-letter:text-7xl first-letter:font-black first-letter:text-[#D4AF37] 
                    first-letter:float-left first-letter:mr-4 first-letter:mt-2"
-        dangerouslySetInnerHTML={{ __html: article.content }} 
+        dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.content) }} 
       />
+
+      <AdSlot location="NOTA" className="mt-12 pt-8 border-t border-gray-200" />
     </main>
   )
 }
