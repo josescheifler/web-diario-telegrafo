@@ -2,6 +2,7 @@ import Link from 'next/link'
 import prisma from '@/lib/prisma'
 import { Suspense } from 'react'
 import Fecha from '@/components/Fecha'
+import AdSlot from '@/components/AdSlot'
 
 // 1. Grilla que consulta las noticias publicadas en Neon
 async function GrillaNoticias() {
@@ -72,12 +73,20 @@ async function GrillaNoticias() {
           </article>
         ))}
 
-        {/* Espacio Publicitario Lateral */}
-        <div className="bg-gray-50 p-6 text-center border border-gray-300 h-[250px] flex items-center justify-center">
-          <span className="text-gray-400 text-xs tracking-widest uppercase font-sans">
-            Espacio Publicitario
-          </span>
-        </div>
+        {/* Espacio Publicitario Lateral (se administra desde /admin → Publicidad) */}
+        <AdSlot
+          location="LATERAL"
+          fallback={
+            <Link
+              href="/publicidad"
+              className="bg-gray-50 p-6 text-center border border-gray-300 h-[250px] flex items-center justify-center"
+            >
+              <span className="text-gray-400 text-xs tracking-widest uppercase font-sans">
+                Espacio Publicitario
+              </span>
+            </Link>
+          }
+        />
       </aside>
     </div>
   )
@@ -131,6 +140,7 @@ export default function Home() {
 
       {/* Contenido Editorial Principal */}
       <main className="container mx-auto px-4 py-10 bg-white">
+        <AdSlot location="CABECERA" className="mb-10" />
         <Suspense fallback={
           <div className="text-center py-20 text-sm font-bold text-gray-400 font-sans">
             Cargando la edición del día...

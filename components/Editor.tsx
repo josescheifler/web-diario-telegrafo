@@ -9,7 +9,7 @@ export default function Editor({ content, onChange }: { content: string, onChang
     immediatelyRender: false, // Esta línea soluciona el error de Next.js
     editorProps: {
       attributes: {
-        class: 'prose max-w-none focus:outline-none min-h-[200px] p-4 text-gray-800',
+        class: 'cuerpo-nota focus:outline-none min-h-[200px] p-4 text-gray-800',
       },
     },
     onUpdate: ({ editor }) => {
