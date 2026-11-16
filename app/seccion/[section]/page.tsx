@@ -1,130 +1,92 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import Fecha from '@/components/Fecha'
+import Cabecera from '@/components/Cabecera'
 import AdSlot from '@/components/AdSlot'
-import type { Section } from '@prisma/client'
+import TarjetaNota from '@/components/TarjetaNota'
+import { SECCIONES, seccionPorSlug } from '@/lib/secciones'
 
-// 1. Le decimos a Next.js exactamente qué URLs existen para evitar el error de pre-renderizado
+type Params = { params: Promise<{ section: string }> }
+
+// Le decimos a Next.js exactamente qué URLs existen
 export function generateStaticParams() {
-  return [
-    { section: 'economia' },
-    { section: 'local' },
-    { section: 'regional' },
-    { section: 'mundo' },
-    { section: 'pais' },
-    { section: 'politica' },
-    { section: 'sociedad' }
-  ]
+  return SECCIONES.map((s) => ({ section: s.slug }))
 }
 
-const sectionMap: Record<string, Section> = {
-  'economia': 'ECONOMIA',
-  'local': 'LOCAL',
-  'regional': 'REGIONAL',
-  'mundo': 'MUNDO',
-  'pais': 'PAIS',
-  'politica': 'POLITICA',
-  'sociedad': 'SOCIEDAD'
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { section } = await params
+  const seccion = seccionPorSlug(section)
+  if (!seccion) return {}
+  return {
+    title: seccion.nombre,
+    description: `Noticias de ${seccion.nombre} en El Telégrafo de Los Charrúas.`,
+  }
 }
 
-// 2. Componente que hace la llamada a la BD
-async function GrillaSeccion({ section }: { section: string }) {
-  const dbSection = sectionMap[section]
-
-  if (!dbSection) return notFound()
+async function NotasDeSeccion({ slug }: { slug: string }) {
+  const seccion = seccionPorSlug(slug)
+  if (!seccion) return notFound()
 
   const notas = await prisma.article.findMany({
-    where: { 
-      section: dbSection,
-      published: true 
-    },
+    where: { section: seccion.valor, published: true },
     orderBy: { createdAt: 'desc' },
-    include: { author: true }
+    select: {
+      id: true,
+      title: true,
+      header: true,
+      featuredImage: true,
+      section: true,
+      createdAt: true,
+      author: { select: { name: true } },
+    },
   })
 
   if (notas.length === 0) {
     return (
-      <div className="text-center py-20 text-gray-500 text-lg">
-        Aún no hay noticias publicadas en esta categoría.
-      </div>
+      <p className="py-20 text-center font-serif text-xl text-gris">
+        Todavía no hay notas publicadas en {seccion.nombre}.
+      </p>
     )
   }
 
+  const [primera, ...resto] = notas
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {notas.map((nota) => (
-        <article key={nota.id} className="flex flex-col border-b lg:border-b-0 lg:border-r lg:last:border-0 lg:pr-4 border-gray-200 pb-6">
-          <Link href={`/nota/${nota.id}`}>
-            {nota.featuredImage && (
-              <img src={nota.featuredImage} alt={nota.title} className="w-full h-56 object-cover mb-4 shadow-sm hover:opacity-90 transition" />
-            )}
-            <h3 className="text-2xl font-bold mb-2 hover:text-[#D4AF37] leading-tight transition-colors">
-              {nota.title}
-            </h3>
-          </Link>
-          <p className="text-gray-600 text-sm mb-4 flex-1">{nota.header}</p>
-          <div className="text-xs text-gray-400 font-sans border-t pt-2 mt-auto">
-            Por {nota.author?.name || 'Redacción'}
-          </div>
-        </article>
-      ))}
-    </div>
+    <>
+      <div className="border-b border-linea pb-10">
+        <TarjetaNota nota={primera} formato="destacada" sinSeccion />
+      </div>
+      {resto.length > 0 && (
+        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          {resto.map((nota) => (
+            <TarjetaNota key={nota.id} nota={nota} sinSeccion />
+          ))}
+        </div>
+      )}
+    </>
   )
 }
 
-// 3. Componente Principal
-export default async function SeccionPage({ params }: { params: Promise<{ section: string }> }) {
+export default async function SeccionPage({ params }: Params) {
   const { section } = await params
-  const cleanSection = section.toLowerCase()
-  
-  const seccionesMenu = ['ECONOMÍA', 'LOCAL', 'REGIONAL', 'MUNDO', 'PAÍS', 'POLÍTICA', 'SOCIEDAD']
+  const seccion = seccionPorSlug(section)
+  if (!seccion) return notFound()
 
   return (
-    <div className="min-h-screen bg-white text-[#0a192f] font-serif">
-      <header className="bg-[#0a192f] text-white">
-        <div className="container mx-auto px-4 py-6 flex flex-col items-center border-b border-[#D4AF37]/30">
-          <Link href="/">
-            <h1 className="text-5xl md:text-7xl font-black text-[#D4AF37] tracking-widest uppercase mb-2 hover:opacity-90 transition">
-              El Telégrafo
-            </h1>
-          </Link>
-          <div className="text-sm text-gray-300 font-sans tracking-widest">
-            <Fecha />
-          </div>
-        </div>
-        
-        <nav className="container mx-auto px-4 py-3">
-          <ul className="flex flex-wrap justify-center gap-6 text-sm font-bold uppercase tracking-wider text-[#D4AF37]">
-            {seccionesMenu.map(s => {
-              const urlSeccion = s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-              return (
-                <li key={s}>
-                  <Link href={`/seccion/${urlSeccion}`} className="hover:text-white transition-colors">
-                    {s}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
-      </header>
+    <>
+      <Cabecera seccionActual={seccion.slug} />
 
-      <main className="container mx-auto px-4 py-10">
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <AdSlot location="CABECERA" className="mb-10" />
-        <h2 className="text-3xl font-bold border-b-2 border-[#D4AF37] pb-2 mb-8 uppercase text-[#0a192f]">
-          {cleanSection === 'pais' ? 'país' : cleanSection === 'economia' ? 'economía' : cleanSection === 'politica' ? 'política' : cleanSection}
-        </h2>
+        <h1 className="mb-8 border-t-2 border-tinta pt-3 font-serif text-5xl font-semibold tracking-[-0.02em]">
+          {seccion.nombre}
+        </h1>
 
-        <Suspense fallback={
-          <div className="text-center py-20 text-xl font-bold text-gray-400 animate-pulse">
-            Cargando noticias...
-          </div>
-        }>
-          <GrillaSeccion section={cleanSection} />
+        <Suspense fallback={<p className="py-20 text-center font-sans text-gris">Cargando noticias…</p>}>
+          <NotasDeSeccion slug={seccion.slug} />
         </Suspense>
       </main>
-    </div>
+    </>
   )
 }

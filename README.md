@@ -29,6 +29,7 @@ Cambiar `ADMIN_PASSWORD` (o `SESSION_SECRET`) cierra todas las sesiones abiertas
 - **Notas**: redactar, publicar y borrar.
 - **Autores**: alta y baja.
 - **Publicidad**: cargar anuncios (imagen con enlace o código HTML), elegir su ubicación, pausarlos, editarlos y borrarlos.
+- **Mensajes**: lo que los lectores envían desde "Escribir a la redacción" y "Cartas de lectores". La tabla `Message` se crea sola la primera vez (ver `lib/mensajes.ts`).
 
 ### Ubicaciones de publicidad
 
@@ -39,6 +40,10 @@ Cambiar `ADMIN_PASSWORD` (o `SESSION_SECRET`) cierra todas las sesiones abiertas
 | Dentro de la nota | Al final del cuerpo de cada noticia | 728 × 90 px |
 
 Si hay varios anuncios activos en una misma ubicación se muestran todos, uno debajo del otro. Las ubicaciones se definen en `lib/ads.ts` y se muestran con el componente `components/AdSlot.tsx`.
+
+## Diseño
+
+Colores y tipografías se definen en `app/globals.css` (bloque `@theme`) y `app/layout.tsx`. Las secciones del diario y su orden están en `lib/secciones.ts`. La cabecera lleva el nombre del diario en código Morse (`components/Morse.tsx`).
 
 ## Seguridad
 

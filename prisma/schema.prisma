@@ -47,3 +47,17 @@ enum Section {
   POLITICA
   SOCIEDAD
 }
+
+// Mensajes que los lectores envían desde "Escribir a la redacción" y "Cartas de lectores".
+// Se leen en el panel → Mensajes. La tabla se crea sola la primera vez (ver lib/mensajes.ts).
+model Message {
+  id        String   @id @default(cuid())
+  kind      String   // CONTACTO o CARTA
+  name      String
+  email     String?
+  locality  String?
+  subject   String?
+  body      String   @db.Text
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
