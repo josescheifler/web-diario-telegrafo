@@ -17,7 +17,7 @@ export default function PublicidadPage() {
       <ul className="divide-y divide-linea border-y border-linea">
         {AD_LOCATIONS.map((espacio) => (
           <li key={espacio.value} className="grid grid-cols-1 gap-1 py-6 sm:grid-cols-12 sm:gap-6">
-            <h2 className="font-serif text-2xl font-semibold sm:col-span-4">{espacio.label}</h2>
+            <h2 className="titular text-3xl sm:col-span-4">{espacio.label}</h2>
             <p className="font-sans text-base leading-relaxed text-tinta/85 sm:col-span-8">{espacio.hint}</p>
           </li>
         ))}
@@ -29,7 +29,7 @@ export default function PublicidadPage() {
       </p>
 
       <div className="mt-10 border-l-4 border-oro bg-niebla p-6 sm:p-8">
-        <h2 className="font-serif text-2xl font-semibold">Consultar precios y disponibilidad</h2>
+        <h2 className="titular text-3xl">Consultar precios y disponibilidad</h2>
         <p className="mt-2 max-w-[60ch] font-sans text-base leading-relaxed text-tinta/85">
           Escribinos desde el formulario de contacto eligiendo el motivo &ldquo;Publicidad&rdquo; y contanos qué querés anunciar.
           Te respondemos al correo que dejes.

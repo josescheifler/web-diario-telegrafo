@@ -20,14 +20,14 @@ export default function ContactoPage() {
         </div>
 
         <aside className="font-sans text-[0.95rem] leading-relaxed text-tinta/85 md:col-span-5 md:border-l md:border-linea md:pl-10">
-          <h2 className="font-serif text-2xl font-semibold text-tinta">Qué pasa con tu mensaje</h2>
+          <h2 className="titular text-3xl text-tinta">Qué pasa con tu mensaje</h2>
           <ul className="mt-4 space-y-3">
             <li>Llega directo a la redacción del diario, que lo lee desde su panel.</li>
             <li>Si hace falta, te respondemos al correo que dejes.</li>
             <li>No publicamos tu nombre ni tu correo sin preguntarte antes.</li>
           </ul>
 
-          <h2 className="mt-10 font-serif text-2xl font-semibold text-tinta">Otras formas de participar</h2>
+          <h2 className="mt-10 titular text-3xl text-tinta">Otras formas de participar</h2>
           <ul className="mt-4 space-y-3">
             <li>
               Para opinar sobre un tema y que se publique con tu firma, mandá una{' '}

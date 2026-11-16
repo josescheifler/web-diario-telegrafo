@@ -12,9 +12,9 @@ const claseEnlace = 'font-semibold underline decoration-oro underline-offset-2'
 export default function TerminosPrivacidadPage() {
   return (
     <PaginaInstitucional titulo="Términos y privacidad">
-      <div className="max-w-[68ch] space-y-10 font-sans text-base leading-relaxed text-tinta/85">
+      <div className="mx-auto max-w-[68ch] space-y-10 font-sans text-base leading-relaxed text-tinta/85">
         <section>
-          <h2 className="mb-3 font-serif text-2xl font-semibold text-tinta">Uso de los contenidos</h2>
+          <h2 className="mb-3 titular text-3xl text-tinta">Uso de los contenidos</h2>
           <p>
             Las notas, fotografías y gráficos de El Telégrafo de Los Charrúas pertenecen al diario o a sus autores. Podés
             citar o reproducir parte de una nota si mencionás la fuente y enlazás a la publicación original.
@@ -22,7 +22,7 @@ export default function TerminosPrivacidadPage() {
         </section>
 
         <section>
-          <h2 className="mb-3 font-serif text-2xl font-semibold text-tinta">Datos personales</h2>
+          <h2 className="mb-3 titular text-3xl text-tinta">Datos personales</h2>
           <p>
             Cuando escribís a la redacción o enviás una carta de lectores guardamos lo que completás en el formulario:
             nombre, correo electrónico, localidad (en las cartas) y el texto. Lo usamos únicamente para leer tu mensaje,
@@ -35,7 +35,7 @@ export default function TerminosPrivacidadPage() {
         </section>
 
         <section>
-          <h2 className="mb-3 font-serif text-2xl font-semibold text-tinta">Cookies</h2>
+          <h2 className="mb-3 titular text-3xl text-tinta">Cookies</h2>
           <p>
             El sitio no usa cookies para seguir a los lectores ni herramientas de medición de audiencia. La única cookie
             propia es la que mantiene abierta la sesión de quienes administran el diario. Los avisos publicitarios de
@@ -44,7 +44,7 @@ export default function TerminosPrivacidadPage() {
         </section>
 
         <section>
-          <h2 className="mb-3 font-serif text-2xl font-semibold text-tinta">Opiniones</h2>
+          <h2 className="mb-3 titular text-3xl text-tinta">Opiniones</h2>
           <p>
             Las columnas firmadas y las cartas de lectores expresan la opinión de sus autores, no necesariamente la del
             diario.

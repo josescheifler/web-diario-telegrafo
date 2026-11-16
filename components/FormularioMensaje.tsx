@@ -14,7 +14,7 @@ export default function FormularioMensaje({ tipo }: { tipo: TipoMensaje }) {
   if (estado.tipo === 'enviado') {
     return (
       <div role="status" className="border-l-4 border-oro bg-niebla p-6 font-sans">
-        <h2 className="font-serif text-2xl font-semibold">{esCarta ? 'Recibimos tu carta' : 'Recibimos tu mensaje'}</h2>
+        <h2 className="titular text-3xl">{esCarta ? 'Recibimos tu carta' : 'Recibimos tu mensaje'}</h2>
         <p className="mt-2 text-tinta/80">
           {esCarta
             ? 'La redacción la va a leer. Si se publica, te avisamos al correo que dejaste.'

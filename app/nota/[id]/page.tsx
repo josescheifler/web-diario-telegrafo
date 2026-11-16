@@ -8,7 +8,9 @@ import Compartir from '@/components/Compartir'
 import Morse, { FIN_DE_MENSAJE } from '@/components/Morse'
 import TarjetaNota, { Volanta } from '@/components/TarjetaNota'
 import { fechaYHora } from '@/lib/fechas'
-import { nombreSeccion } from '@/lib/secciones'
+import { nombreSeccion, urlSeccion } from '@/lib/secciones'
+import ProgresoLectura from '@/components/ProgresoLectura'
+import TituloSeccion from '@/components/TituloSeccion'
 import { sanitizeArticleHtml } from '@/lib/sanitize'
 
 type Params = { params: Promise<{ id: string }> }
@@ -60,67 +62,75 @@ async function DetalleNota({ params }: Params) {
   })
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <AdSlot location="CABECERA" className="mb-10" />
+    <main>
+      <ProgresoLectura />
 
       <article>
-        <header className="mx-auto max-w-3xl">
-          <Volanta seccion={article.section} />
-          <h1 className="mt-2 font-serif text-4xl leading-[1.06] font-semibold tracking-[-0.02em] text-balance sm:text-[3.4rem]">
-            {article.title}
-          </h1>
-          <p className="mt-5 font-serif text-xl leading-relaxed text-tinta/80 sm:text-2xl sm:leading-relaxed">
-            {article.header}
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-y border-linea py-4">
-            <div className="flex items-center gap-3">
-              {article.author?.profilePic && (
-                <img src={article.author.profilePic} alt="" className="h-11 w-11 rounded-full object-cover" />
-              )}
-              <p className="font-sans text-sm leading-snug">
-                <span className="block font-semibold">{article.author?.name || 'Redacción'}</span>
-                <time dateTime={article.createdAt.toISOString()} className="text-gris">
-                  {fechaYHora(article.createdAt)}
-                </time>
-              </p>
-            </div>
-            <Compartir titulo={article.title} />
+        {/* Encabezado de la nota, sobre el azul de la cabecera */}
+        <header className="bg-tinta-honda text-white">
+          <div className="mx-auto max-w-4xl px-4 pt-8 pb-28 text-center sm:px-8 sm:pt-10 sm:pb-40">
+            <Volanta seccion={article.section} oscuro />
+            <h1 className="titular mt-4 text-[2.6rem] leading-[0.98] sm:text-7xl">{article.title}</h1>
+            <p className="mx-auto mt-7 max-w-[58ch] font-serif text-xl leading-relaxed text-white/75 sm:text-2xl sm:leading-relaxed">
+              {article.header}
+            </p>
           </div>
         </header>
 
-        {article.featuredImage && (
-          <figure className="mx-auto mt-8 max-w-5xl bg-niebla">
-            <img src={article.featuredImage} alt="" className="max-h-[640px] w-full object-cover" />
-          </figure>
-        )}
+        {/* La foto se monta sobre el encabezado */}
+        <div className="mx-auto -mt-20 max-w-6xl px-4 sm:-mt-28 sm:px-8">
+          {article.featuredImage ? (
+            <figure className="bg-niebla shadow-[0_30px_60px_-30px_rgb(8_20_36/0.55)]">
+              <img src={article.featuredImage} alt="" className="max-h-[680px] w-full object-cover" />
+            </figure>
+          ) : (
+            <div className="h-20 sm:h-28" />
+          )}
+        </div>
+
+        <div className="mx-auto mt-10 flex max-w-[44rem] flex-wrap items-center justify-between gap-x-6 gap-y-4 border-b border-linea px-4 pb-6 sm:px-0">
+          <div className="flex items-center gap-3">
+            {article.author?.profilePic && (
+              <img src={article.author.profilePic} alt="" className="h-12 w-12 rounded-full object-cover" />
+            )}
+            <p className="font-sans text-sm leading-snug">
+              <span className="block font-semibold">{article.author?.name || 'Redacción'}</span>
+              <time dateTime={article.createdAt.toISOString()} className="text-gris">
+                {fechaYHora(article.createdAt)}
+              </time>
+            </p>
+          </div>
+          <Compartir titulo={article.title} />
+        </div>
 
         {/* El HTML se limpia siempre antes de mostrarse (ver lib/sanitize.ts) */}
         <div
-          className="cuerpo-nota cuerpo-nota-publicada mx-auto mt-10 max-w-[42rem] font-serif text-[1.2rem] text-tinta"
+          className="cuerpo-nota cuerpo-nota-publicada mx-auto mt-10 max-w-[44rem] px-4 font-serif text-[1.25rem] text-tinta sm:px-0"
           dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.content) }}
         />
 
         {/* Cierre: "fin de mensaje" en Morse */}
-        <div className="mx-auto mt-10 flex max-w-[42rem] justify-center text-oro" title="Fin de mensaje, en código Morse">
-          <Morse senal={FIN_DE_MENSAJE} alto={6} />
+        <div className="mt-12 flex justify-center text-oro" title="Fin de mensaje, en código Morse">
+          <Morse senal={FIN_DE_MENSAJE} alto={7} />
         </div>
       </article>
 
-      <AdSlot location="NOTA" className="mx-auto mt-12 max-w-[42rem] border-t border-linea pt-8" />
+      <AdSlot location="NOTA" className="mx-auto mt-14 max-w-[44rem] border-t border-linea px-4 pt-8 sm:px-0" />
 
       {relacionadas.length > 0 && (
-        <section aria-labelledby="mas-notas" className="mt-16">
-          <h2 id="mas-notas" className="mb-6 border-t-2 border-tinta pt-3 font-serif text-3xl font-semibold tracking-[-0.01em]">
-            Más de {nombreSeccion(article.section)}
-          </h2>
-          <div className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-3">
-            {relacionadas.map((nota) => (
-              <TarjetaNota key={nota.id} nota={nota} sinSeccion />
-            ))}
+        <section aria-labelledby="mas-notas" className="mt-20 bg-niebla">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-8">
+            <TituloSeccion id="mas-notas" nombre={`Más de ${nombreSeccion(article.section)}`} href={urlSeccion(article.section)} />
+            <div className="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-3">
+              {relacionadas.map((nota) => (
+                <TarjetaNota key={nota.id} nota={nota} sinSeccion />
+              ))}
+            </div>
           </div>
         </section>
       )}
+
+      {relacionadas.length === 0 && <div className="h-20" />}
     </main>
   )
 }
@@ -130,7 +140,7 @@ export default function NotaPage({ params }: Params) {
     <>
       <Cabecera />
       {/* Suspense aísla la carga de datos del renderizado estático */}
-      <Suspense fallback={<p className="py-24 text-center font-sans text-gris">Cargando la nota…</p>}>
+      <Suspense fallback={<div className="bg-tinta-honda py-40 text-center font-sans text-white/60">Cargando la nota…</div>}>
         <DetalleNota params={params} />
       </Suspense>
     </>

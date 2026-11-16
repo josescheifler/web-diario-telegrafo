@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import Cabecera from '@/components/Cabecera'
 import AdSlot from '@/components/AdSlot'
+import Morse from '@/components/Morse'
 import TarjetaNota from '@/components/TarjetaNota'
 import { SECCIONES, seccionPorSlug } from '@/lib/secciones'
 
@@ -44,7 +45,7 @@ async function NotasDeSeccion({ slug }: { slug: string }) {
 
   if (notas.length === 0) {
     return (
-      <p className="py-20 text-center font-serif text-xl text-gris">
+      <p className="titular py-20 text-center text-3xl text-gris">
         Todavía no hay notas publicadas en {seccion.nombre}.
       </p>
     )
@@ -54,11 +55,9 @@ async function NotasDeSeccion({ slug }: { slug: string }) {
 
   return (
     <>
-      <div className="border-b border-linea pb-10">
-        <TarjetaNota nota={primera} formato="destacada" sinSeccion />
-      </div>
+      <TarjetaNota nota={primera} formato="apertura" sinSeccion />
       {resto.length > 0 && (
-        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 border-t border-tinta pt-10 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
           {resto.map((nota) => (
             <TarjetaNota key={nota.id} nota={nota} sinSeccion />
           ))}
@@ -77,12 +76,17 @@ export default async function SeccionPage({ params }: Params) {
     <>
       <Cabecera seccionActual={seccion.slug} />
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <AdSlot location="CABECERA" className="mb-10" />
-        <h1 className="mb-8 border-t-2 border-tinta pt-3 font-serif text-5xl font-semibold tracking-[-0.02em]">
-          {seccion.nombre}
-        </h1>
+      <div className="bg-tinta-honda text-white">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-5 px-4 pt-4 pb-12 text-center sm:px-8 sm:pb-16">
+          <Morse texto={seccion.nombre} alto={5} className="text-oro" />
+          <h1 className="font-display text-6xl leading-none font-medium tracking-[-0.035em] italic sm:text-8xl">
+            {seccion.nombre}
+          </h1>
+        </div>
+      </div>
 
+      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-8 sm:py-16">
+        <AdSlot location="CABECERA" className="mb-12" />
         <Suspense fallback={<p className="py-20 text-center font-sans text-gris">Cargando noticias…</p>}>
           <NotasDeSeccion slug={seccion.slug} />
         </Suspense>

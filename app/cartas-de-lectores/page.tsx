@@ -19,7 +19,7 @@ export default function CartasDeLectoresPage() {
         </div>
 
         <aside className="font-sans text-[0.95rem] leading-relaxed text-tinta/85 md:col-span-5 md:border-l md:border-linea md:pl-10">
-          <h2 className="font-serif text-2xl font-semibold text-tinta">Antes de enviar</h2>
+          <h2 className="titular text-3xl text-tinta">Antes de enviar</h2>
           <ul className="mt-4 space-y-3">
             <li>Firmá con tu nombre, tu apellido y tu localidad: las cartas se publican firmadas.</li>
             <li>Tratá de no pasar las 500 palabras.</li>

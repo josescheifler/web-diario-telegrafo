@@ -55,7 +55,7 @@ export default function Morse({ texto, senal, alto = 4, anchoCompleto = false, c
       width={anchoCompleto ? undefined : x}
       height={anchoCompleto ? undefined : u}
       viewBox={`0 0 ${x} ${u}`}
-      className={`block shrink-0 fill-current ${anchoCompleto ? 'h-auto w-full' : ''} ${className}`}
+      className={`shrink-0 fill-current ${anchoCompleto ? 'h-auto w-full' : ''} ${className}`}
     >
       {formas.map((f, i) => (
         <rect key={i} x={f.x} y={0} width={f.ancho} height={u} rx={u / 2} />

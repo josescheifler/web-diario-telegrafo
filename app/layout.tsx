@@ -1,10 +1,19 @@
 import type { Metadata } from 'next'
-import { Newsreader, Archivo } from 'next/font/google'
+import { Bodoni_Moda, Newsreader, Archivo } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/Footer'
 
-// Newsreader: serif pensada para leer noticias (títulos y texto).
+// Bodoni Moda: didona de alto contraste, para el nombre del diario y los títulos.
+// Newsreader: serif pensada para leer noticias (bajadas y cuerpo de las notas).
 // Archivo: sans de la fundidora argentina Omnibus-Type (menú, firmas, formularios).
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-bodoni',
+  display: 'swap',
+})
+
 const newsreader = Newsreader({
   subsets: ['latin'],
   style: ['normal', 'italic'],
@@ -42,7 +51,7 @@ export default function RootLayout({
     <html lang="es-AR" style={{ colorScheme: 'light', backgroundColor: '#ffffff' }}>
       <body
         style={{ colorScheme: 'light', backgroundColor: '#ffffff', color: '#0d1e32' }}
-        className={`${newsreader.variable} ${archivo.variable} flex min-h-screen flex-col bg-papel font-serif text-tinta antialiased selection:bg-oro selection:text-tinta`}
+        className={`${bodoni.variable} ${newsreader.variable} ${archivo.variable} flex min-h-screen flex-col bg-papel font-serif text-tinta antialiased selection:bg-oro selection:text-tinta`}
       >
         <div className="flex-1 bg-papel">{children}</div>
         <Footer />

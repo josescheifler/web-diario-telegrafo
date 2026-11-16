@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import Cabecera from '@/components/Cabecera'
 import AdSlot from '@/components/AdSlot'
 import TarjetaNota from '@/components/TarjetaNota'
+import TituloSeccion from '@/components/TituloSeccion'
 import { SECCIONES } from '@/lib/secciones'
 
 // Cuántas notas recientes se traen para armar la portada
@@ -15,10 +16,10 @@ function EspacioPublicitario() {
   return (
     <Link
       href="/publicidad"
-      className="flex h-[250px] flex-col items-center justify-center gap-1 border border-dashed border-linea bg-niebla p-6 text-center font-sans"
+      className="flex min-h-[250px] flex-col items-center justify-center gap-2 bg-niebla p-6 text-center"
     >
-      <span className="text-sm font-semibold text-tinta">Su aviso puede estar acá</span>
-      <span className="text-xs text-gris">Conocé los espacios disponibles</span>
+      <span className="font-display text-2xl leading-tight font-medium italic text-tinta">Su aviso puede estar acá</span>
+      <span className="font-sans text-xs text-gris">Conocé los espacios disponibles</span>
     </Link>
   )
 }
@@ -41,8 +42,8 @@ async function Portada() {
 
   if (notas.length === 0) {
     return (
-      <div className="py-24 text-center">
-        <p className="font-serif text-2xl">Todavía no hay noticias publicadas.</p>
+      <div className="px-4 py-32 text-center">
+        <p className="titular text-4xl">Todavía no hay noticias publicadas.</p>
         <p className="mt-2 font-sans text-gris">La redacción las carga desde el panel de administración.</p>
       </div>
     )
@@ -64,57 +65,56 @@ async function Portada() {
     .map((bloque) => bloque.notas[0])
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
 
+  const contenedor = 'mx-auto max-w-7xl px-4 sm:px-8'
+
   return (
     <>
-      {/* Apertura: la nota más reciente y las tres siguientes */}
-      <section aria-label="Noticias principales" className="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-12">
-        <div className="lg:col-span-8">
-          <TarjetaNota nota={principal} formato="destacada" />
-        </div>
-
-        <aside className="flex flex-col gap-8 lg:col-span-4 lg:border-l lg:border-linea lg:pl-10">
-          {destacadas.length > 0 && (
-            <div>
-              <h2 className="mb-5 font-sans text-sm font-semibold text-gris">Además</h2>
-              <div className="flex flex-col divide-y divide-linea">
-                {destacadas.map((nota) => (
-                  <div key={nota.id} className="py-5 first:pt-0 last:pb-0">
-                    <TarjetaNota nota={nota} formato="lista" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Publicidad lateral (se administra desde el panel → Publicidad) */}
-          <AdSlot location="LATERAL" fallback={<EspacioPublicitario />} />
-        </aside>
+      {/* Apertura: la nota más reciente */}
+      <section aria-label="Noticia principal" className={`${contenedor} pt-10 pb-14 sm:pt-14 sm:pb-20`}>
+        <AdSlot location="CABECERA" className="mb-12" />
+        <TarjetaNota nota={principal} formato="apertura" />
       </section>
 
-      {/* Una franja por sección */}
+      {/* Las tres siguientes y el aviso lateral */}
+      <section aria-label="Noticias destacadas" className={contenedor}>
+        <div className="grid grid-cols-1 gap-x-10 gap-y-12 border-t border-tinta pt-10 pb-16 sm:grid-cols-2 lg:grid-cols-4">
+          {destacadas.map((nota) => (
+            <TarjetaNota key={nota.id} nota={nota} />
+          ))}
+          {/* Publicidad lateral (se administra desde el panel → Publicidad) */}
+          <AdSlot location="LATERAL" fallback={<EspacioPublicitario />} />
+        </div>
+      </section>
+
+      {/* Una franja por sección. La de Entre Ríos va sobre azul. */}
       {bloques.map(({ seccion, notas: notasDeSeccion }) => {
         const [primera, ...otras] = notasDeSeccion
+        const oscuro = seccion.valor === 'REGIONAL'
         return (
-          <section key={seccion.slug} aria-labelledby={`seccion-${seccion.slug}`} className="mt-16">
-            <div className="mb-6 flex items-baseline justify-between gap-4 border-t-2 border-tinta pt-3">
-              <h2 id={`seccion-${seccion.slug}`} className="font-serif text-3xl font-semibold tracking-[-0.01em]">
-                <Link href={`/seccion/${seccion.slug}`} className="titulo-enlace">{seccion.nombre}</Link>
-              </h2>
-              <Link href={`/seccion/${seccion.slug}`} className="font-sans text-sm font-medium text-oro-viejo hover:underline">
-                Ver todas las notas
-              </Link>
-            </div>
+          <section
+            key={seccion.slug}
+            aria-labelledby={`seccion-${seccion.slug}`}
+            className={oscuro ? 'bg-tinta-honda text-white' : ''}
+          >
+            <div className={`${contenedor} ${oscuro ? 'py-16 sm:py-20' : 'border-t border-linea py-14 sm:py-16'}`}>
+              <TituloSeccion
+                id={`seccion-${seccion.slug}`}
+                nombre={seccion.nombre}
+                href={`/seccion/${seccion.slug}`}
+                oscuro={oscuro}
+              />
 
-            <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-12">
-              <div className="lg:col-span-5">
-                <TarjetaNota nota={primera} sinSeccion />
-              </div>
-              <div className="flex flex-col divide-y divide-linea lg:col-span-7">
-                {otras.map((nota) => (
-                  <div key={nota.id} className="py-5 first:pt-0 last:pb-0">
-                    <TarjetaNota nota={nota} formato="lista" sinSeccion conBajada />
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-12">
+                <div className="lg:col-span-5">
+                  <TarjetaNota nota={primera} sinSeccion oscuro={oscuro} />
+                </div>
+                <div className={`flex flex-col divide-y lg:col-span-7 ${oscuro ? 'divide-white/15' : 'divide-linea'}`}>
+                  {otras.map((nota) => (
+                    <div key={nota.id} className="py-6 first:pt-0 last:pb-0">
+                      <TarjetaNota nota={nota} formato="lista" sinSeccion conBajada oscuro={oscuro} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -122,14 +122,12 @@ async function Portada() {
       })}
 
       {sueltas.length > 0 && (
-        <section aria-labelledby="mas-noticias" className="mt-16">
-          <h2 id="mas-noticias" className="mb-6 border-t-2 border-tinta pt-3 font-serif text-3xl font-semibold tracking-[-0.01em]">
-            Más noticias
-          </h2>
+        <section aria-labelledby="mas-noticias" className={`${contenedor} border-t border-linea py-14 sm:py-16`}>
+          <TituloSeccion id="mas-noticias" nombre="Más noticias" />
           {sueltas.length === 1 ? (
             <TarjetaNota nota={sueltas[0]} formato="horizontal" />
           ) : (
-            <div className={`grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 ${sueltas.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
+            <div className={`grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 ${sueltas.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
               {sueltas.map((nota) => (
                 <TarjetaNota key={nota.id} nota={nota} />
               ))}
@@ -146,10 +144,9 @@ export default function Home() {
     <>
       <Cabecera seccionActual="portada" />
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <main>
         <h1 className="sr-only">El Telégrafo de Los Charrúas: noticias de Los Charrúas y de Entre Ríos</h1>
-        <AdSlot location="CABECERA" className="mb-10" />
-        <Suspense fallback={<p className="py-24 text-center font-sans text-gris">Cargando la edición de hoy…</p>}>
+        <Suspense fallback={<p className="py-32 text-center font-sans text-gris">Cargando la edición de hoy…</p>}>
           <Portada />
         </Suspense>
       </main>
