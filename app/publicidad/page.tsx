@@ -1,83 +1,41 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import PaginaInstitucional from '@/components/PaginaInstitucional'
+import { AD_LOCATIONS } from '@/lib/ads'
+
+export const metadata: Metadata = {
+  title: 'Publicidad',
+  description: 'Espacios de publicidad disponibles en El Telégrafo de Los Charrúas.',
+}
 
 export default function PublicidadPage() {
-  const formatos = [
-    { nombre: 'Banner Principal Superior', medidas: '970 x 250 px / 728 x 90 px', ubicacion: 'Cabecera visible en todas las páginas' },
-    { nombre: 'Lateral Sticky (Sidebar)', medidas: '300 x 250 px / 300 x 600 px', ubicacion: 'Columna fija en portada y artículos' },
-    { nombre: 'In-Article Banner', medidas: '728 x 90 px / Nativo', ubicacion: 'Insertado en el cuerpo de las noticias' },
-    { nombre: 'Nota Patrocinada / Branded', medidas: 'Contenido Editorial + Imagen', ubicacion: 'Publicación destacada en sección afín' }
-  ]
-
   return (
-    <div className="min-h-screen bg-white text-[#0a192f]">
-      <header className="bg-[#0a192f] text-white p-4 text-center border-b border-[#D4AF37]/30">
-        <Link href="/" className="inline-flex items-center gap-3">
-          <img src="/favicon.ico" alt="El Telégrafo de Los Charrúas" className="w-8 h-8 object-contain" />
-          <h2 className="text-xl md:text-2xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
-            El Telégrafo de Los Charrúas
-          </h2>
-        </Link>
-      </header>
+    <PaginaInstitucional
+      titulo="Publicidad"
+      bajada="Comercios, empresas e instituciones pueden anunciar en el diario. Estos son los espacios disponibles."
+    >
+      <ul className="divide-y divide-linea border-y border-linea">
+        {AD_LOCATIONS.map((espacio) => (
+          <li key={espacio.value} className="grid grid-cols-1 gap-1 py-6 sm:grid-cols-12 sm:gap-6">
+            <h2 className="titular text-3xl sm:col-span-4">{espacio.label}</h2>
+            <p className="font-sans text-base leading-relaxed text-tinta/85 sm:col-span-8">{espacio.hint}</p>
+          </li>
+        ))}
+      </ul>
 
-      <main className="max-w-4xl mx-auto px-4 py-12 font-serif bg-white text-[#0a192f]">
-        <div className="border-b-4 border-[#D4AF37] pb-4 mb-8">
-          <span className="text-xs uppercase font-sans tracking-widest text-[#D4AF37] font-bold block mb-1">
-            El Telégrafo de Los Charrúas • Departamento Comercial
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold uppercase font-[family-name:var(--font-cinzel)] text-[#0a192f]">
-            Publicidad y Tarifas
-          </h1>
-        </div>
+      <p className="mt-6 max-w-[65ch] font-sans text-[0.95rem] leading-relaxed text-tinta/85">
+        El aviso puede ser una imagen con un enlace a tu sitio, tu Instagram o tu WhatsApp. Todos los avisos se muestran
+        con la leyenda &ldquo;Publicidad&rdquo;, separados de las noticias.
+      </p>
 
-        <p className="text-gray-700 mb-10 text-base leading-relaxed font-sans">
-          <strong>El Telégrafo de Los Charrúas</strong> ofrece soluciones de comunicación directa para empresas, comercios e instituciones que buscan visibilidad en una audiencia calificada de la localidad y la región.
+      <div className="mt-10 border-l-4 border-oro bg-niebla p-6 sm:p-8">
+        <h2 className="titular text-3xl">Consultar precios y disponibilidad</h2>
+        <p className="mt-2 max-w-[60ch] font-sans text-base leading-relaxed text-tinta/85">
+          Escribinos desde el formulario de contacto eligiendo el motivo &ldquo;Publicidad&rdquo; y contanos qué querés anunciar.
+          Te respondemos al correo que dejes.
         </p>
-
-        <div className="mb-12">
-          <h3 className="text-xl font-bold uppercase font-sans tracking-wide text-[#0a192f] border-b border-gray-300 pb-2 mb-4">
-            Espacios y Formatos Disponibles
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left font-sans text-sm border border-gray-300 bg-white">
-              <thead className="bg-[#0a192f] text-white uppercase text-xs">
-                <tr>
-                  <th className="p-3 border-r border-gray-700">Espacio</th>
-                  <th className="p-3 border-r border-gray-700">Dimensiones</th>
-                  <th className="p-3">Ubicación</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 text-[#0a192f]">
-                {formatos.map((f, i) => (
-                  <tr key={i} className="hover:bg-gray-50">
-                    <td className="p-3 font-bold border-r border-gray-200">{f.nombre}</td>
-                    <td className="p-3 text-gray-700 border-r border-gray-200">{f.medidas}</td>
-                    <td className="p-3 text-gray-700">{f.ubicacion}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="bg-gray-50 border-2 border-[#D4AF37] p-8 font-sans">
-          <h3 className="font-serif text-2xl font-bold text-[#0a192f] mb-2 uppercase">
-            Contrataciones y Tarifario
-          </h3>
-          <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-            Para solicitar nuestro tarifario publicitario o propuestas personalizadas de auspicio, contacte a la gerencia comercial:
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold">
-            <div className="p-4 bg-white border border-gray-300 text-[#0a192f]">
-              <span className="text-xs text-gray-500 block uppercase font-sans">Vía Correo</span>
-              comercial@eltelegrafo.com
-            </div>
-            <div className="p-4 bg-white border border-gray-300 text-[#0a192f]">
-              <span className="text-xs text-gray-500 block uppercase font-sans">Mesa Comercial</span>
-              Lunes a Viernes • 09:00 a 18:00 hs.
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+        <Link href="/contacto" className="boton mt-5">Escribir a la redacción</Link>
+      </div>
+    </PaginaInstitucional>
   )
 }

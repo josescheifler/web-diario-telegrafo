@@ -8,6 +8,8 @@ import {
 } from '../actions'
 import { AD_LOCATIONS, adLocationLabel, isEmbedAd } from '@/lib/ads'
 import Link from 'next/link'
+import MensajesTab from './MensajesTab'
+import { SECCIONES, nombreSeccion } from '@/lib/secciones'
 import dynamic from 'next/dynamic'
 
 // Evita que TipTap y Math.random() choquen con el pre-renderizado de Next.js
@@ -16,7 +18,7 @@ const Editor = dynamic(() => import('@/components/Editor'), { ssr: false })
 type Autor = { id: string; name: string; bio: string | null; profilePic: string | null }
 type Nota = { id: string; title: string; section: string; author: { name: string } | null }
 type Anuncio = { id: string; name: string; adCode: string; location: string; isActive: boolean }
-type Tab = 'notas' | 'autores' | 'publicidad'
+type Tab = 'notas' | 'autores' | 'publicidad' | 'mensajes'
 type Mensaje = { tipo: 'ok' | 'error'; texto: string }
 type ModoAnuncio = 'imagen' | 'codigo'
 
@@ -71,6 +73,7 @@ export default function AdminDashboard() {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([])
   const [anuncio, setAnuncio] = useState<FormAnuncio>(ANUNCIO_VACIO)
   const [mensaje, setMensaje] = useState<Mensaje | null>(null)
+  const [sinLeer, setSinLeer] = useState<number | null>(null)
 
   const cargarDatos = useCallback(() => {
     getAutores().then(setAutores).catch(() => {})
@@ -151,9 +154,9 @@ export default function AdminDashboard() {
       {/* Header del Panel Admin */}
       <div className="bg-[#0a192f] p-4 text-white flex justify-between items-center border-b-2 border-[#D4AF37]">
         <Link href="/" className="flex items-center gap-3">
-          <img src="/favicon.ico" alt="El Telégrafo" className="w-8 h-8 object-contain" />
-          <h1 className="text-[#D4AF37] font-bold text-xl uppercase font-[family-name:var(--font-cinzel)]">
-            El Telégrafo - Panel Admin
+          <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
+          <h1 className="text-[#D4AF37] font-semibold text-xl font-serif">
+            El Telégrafo, panel de la redacción
           </h1>
         </Link>
         <div className="flex items-center gap-4">
@@ -170,7 +173,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Pestañas de Navegación */}
-      <div className="flex px-6 bg-white border-b border-gray-300 gap-6 font-bold">
+      <div className="flex px-6 bg-white border-b border-gray-300 gap-6 font-bold overflow-x-auto whitespace-nowrap">
         <button
           onClick={() => cambiarTab('notas')}
           className={`py-4 ${activeTab === 'notas' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
@@ -188,6 +191,12 @@ export default function AdminDashboard() {
           className={`py-4 ${activeTab === 'publicidad' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
         >
           Publicidad ({anuncios.length})
+        </button>
+        <button 
+          onClick={() => cambiarTab('mensajes')} 
+          className={`py-4 ${activeTab === 'mensajes' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
+        >
+          Mensajes{sinLeer ? ` (${sinLeer} sin leer)` : ''}
         </button>
       </div>
 
@@ -246,13 +255,9 @@ export default function AdminDashboard() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <select name="section" required className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
                   <option value="">Sección...</option>
-                  <option value="ECONOMIA">Economía</option>
-                  <option value="LOCAL">Local</option>
-                  <option value="REGIONAL">Regional</option>
-                  <option value="PAIS">País</option>
-                  <option value="MUNDO">Mundo</option>
-                  <option value="POLITICA">Política</option>
-                  <option value="SOCIEDAD">Sociedad</option>
+                  {SECCIONES.map((sec) => (
+                    <option key={sec.valor} value={sec.valor}>{sec.nombre}</option>
+                  ))}
                 </select>
 
                 <select name="authorId" required className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
@@ -291,7 +296,7 @@ export default function AdminDashboard() {
                   notas.map((n) => (
                     <div key={n.id} className="p-3 border border-gray-200 flex justify-between items-start gap-3">
                       <div>
-                        <span className="text-[10px] font-bold text-[#D4AF37] uppercase">{n.section}</span>
+                        <span className="text-[10px] font-bold text-[#7a5c0e] uppercase">{nombreSeccion(n.section)}</span>
                         <h4 className="font-bold text-sm leading-snug">{n.title}</h4>
                         <p className="text-xs text-gray-500 mt-1">Por {n.author?.name || 'Redacción'}</p>
                       </div>
@@ -380,6 +385,9 @@ export default function AdminDashboard() {
 
           </div>
         )}
+
+        {/* TAB MENSAJES */}
+        {activeTab === 'mensajes' && <MensajesTab onSinLeer={setSinLeer} />}
 
         {/* TAB PUBLICIDAD */}
         {activeTab === 'publicidad' && (

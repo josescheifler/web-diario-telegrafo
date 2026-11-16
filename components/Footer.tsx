@@ -1,91 +1,49 @@
-'use client'
-
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { SECCIONES } from '@/lib/secciones'
 
 export default function Footer() {
-  const [year, setYear] = useState<number>(2026)
-
-  useEffect(() => {
-    setYear(new Date().getFullYear())
-  }, [])
-
   return (
-    <footer className="bg-[#0a192f] text-white border-t-4 border-[#D4AF37] font-serif mt-auto">
-      <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        
-        {/* Identidad */}
-        <div className="md:col-span-1 flex flex-col items-start">
-          <Link href="/" className="flex items-center gap-3 mb-3">
-            <img 
-              src="/favicon.ico" 
-              alt="El Telégrafo de Los Charrúas" 
-              className="w-10 h-10 object-contain" 
-            />
-            <span className="text-lg md:text-xl font-black text-[#D4AF37] tracking-wider uppercase font-[family-name:var(--font-cinzel)] leading-tight">
-              El Telégrafo <br />
-              <span className="text-xs font-sans tracking-widest text-gray-300">De Los Charrúas</span>
+    <footer className="mt-auto bg-tinta-honda font-sans text-white">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-10 px-4 py-16 sm:px-8 md:grid-cols-4">
+        <div className="col-span-2">
+          <Link href="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="" width={48} height={48} className="h-12 w-12" />
+            <span className="flex flex-col">
+              <span className="font-display text-4xl leading-none font-medium tracking-[-0.03em]">El Telégrafo</span>
+              <span className="mt-1.5 font-display text-base text-oro italic">de Los Charrúas</span>
             </span>
           </Link>
-          <p className="text-xs text-gray-300 font-sans leading-relaxed">
-            Diario digital independiente al servicio de Los Charrúas y la región.
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/75">
+            Diario digital de Los Charrúas, con noticias de la localidad y de toda la provincia de Entre Ríos.
           </p>
         </div>
 
-        {/* Secciones */}
-        <div>
-          <h4 className="text-sm font-bold uppercase tracking-wider text-[#D4AF37] font-sans mb-3 border-b border-[#D4AF37]/30 pb-1">
-            Secciones
-          </h4>
-          <ul className="text-xs space-y-2 font-sans text-gray-300">
-            <li><Link href="/seccion/economia" className="hover:text-white transition">Economía</Link></li>
-            <li><Link href="/seccion/local" className="hover:text-white transition">Local</Link></li>
-            <li><Link href="/seccion/regional" className="hover:text-white transition">Regional</Link></li>
-            <li><Link href="/seccion/politica" className="hover:text-white transition">Política</Link></li>
-            <li><Link href="/seccion/sociedad" className="hover:text-white transition">Sociedad</Link></li>
+        <nav aria-label="Secciones del diario">
+          <h2 className="mb-3 text-sm font-semibold text-oro">Secciones</h2>
+          <ul className="space-y-2 text-sm text-white/80">
+            {SECCIONES.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/seccion/${s.slug}`} className="hover:text-white hover:underline">{s.nombre}</Link>
+              </li>
+            ))}
           </ul>
-        </div>
+        </nav>
 
-        {/* Institucional */}
-        <div>
-          <h4 className="text-sm font-bold uppercase tracking-wider text-[#D4AF37] font-sans mb-3 border-b border-[#D4AF37]/30 pb-1">
-            Institucional
-          </h4>
-          <ul className="text-xs space-y-2 font-sans text-gray-300">
-            <li><Link href="/contacto" className="hover:text-white transition">Redacción y Contacto</Link></li>
-            <li><Link href="/cartas-de-lectores" className="hover:text-white transition">Cartas de Lectores</Link></li>
-            <li><Link href="/publicidad" className="hover:text-white transition">Publicidad y Tarifas</Link></li>
-            <li><Link href="/terminos-y-privacidad" className="hover:text-white transition">Términos y Privacidad</Link></li>
+        <nav aria-label="El diario">
+          <h2 className="mb-3 text-sm font-semibold text-oro">El diario</h2>
+          <ul className="space-y-2 text-sm text-white/80">
+            <li><Link href="/contacto" className="hover:text-white hover:underline">Escribir a la redacción</Link></li>
+            <li><Link href="/cartas-de-lectores" className="hover:text-white hover:underline">Cartas de lectores</Link></li>
+            <li><Link href="/publicidad" className="hover:text-white hover:underline">Publicidad</Link></li>
+            <li><Link href="/terminos-y-privacidad" className="hover:text-white hover:underline">Términos y privacidad</Link></li>
           </ul>
-        </div>
-
-        {/* Redacción y Ubicación */}
-        <div>
-          <h4 className="text-sm font-bold uppercase tracking-wider text-[#D4AF37] font-sans mb-3 border-b border-[#D4AF37]/30 pb-1">
-            Redacción Central
-          </h4>
-          <p className="text-xs font-sans text-gray-300 leading-relaxed mb-2">
-            Los Charrúas, Entre Ríos, Argentina.
-          </p>
-          <p className="text-xs font-sans text-gray-300">
-            <strong>Contacto:</strong> redaccion@eltelegrafo.com
-          </p>
-        </div>
+        </nav>
       </div>
 
-      {/* Franja Inferior */}
-      <div className="border-t border-gray-800 py-4 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 font-sans gap-2">
-          <p>
-            © {year} El Telégrafo de Los Charrúas. Todos los derechos reservados.
-          </p>
-          <Link 
-            href="/admin/login" 
-            className="hover:text-[#D4AF37] transition flex items-center gap-1 opacity-60 hover:opacity-100"
-            title="Acceso Redacción"
-          >
-            <span>🔒</span> Acceso Redacción
-          </Link>
+      <div className="border-t border-white/15">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-white/60 sm:flex-row sm:px-8">
+          <p>El Telégrafo de Los Charrúas. Los Charrúas, Entre Ríos, Argentina.</p>
+          <Link href="/admin/login" className="hover:text-oro">Acceso a la redacción</Link>
         </div>
       </div>
     </footer>

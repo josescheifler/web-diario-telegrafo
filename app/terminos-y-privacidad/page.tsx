@@ -1,65 +1,56 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import PaginaInstitucional from '@/components/PaginaInstitucional'
+
+export const metadata: Metadata = {
+  title: 'Términos y privacidad',
+  description: 'Condiciones de uso del sitio y tratamiento de los datos personales en El Telégrafo de Los Charrúas.',
+}
+
+const claseEnlace = 'font-semibold underline decoration-oro underline-offset-2'
 
 export default function TerminosPrivacidadPage() {
   return (
-    <div className="min-h-screen bg-white text-[#0a192f]">
-      <header className="bg-[#0a192f] text-white p-4 text-center border-b border-[#D4AF37]/30">
-        <Link href="/" className="inline-flex items-center gap-3">
-          <img src="/favicon.ico" alt="El Telégrafo de Los Charrúas" className="w-8 h-8 object-contain" />
-          <h2 className="text-xl md:text-2xl font-black text-[#D4AF37] tracking-widest uppercase hover:opacity-90 transition font-[family-name:var(--font-cinzel)]">
-            El Telégrafo de Los Charrúas
-          </h2>
-        </Link>
-      </header>
+    <PaginaInstitucional titulo="Términos y privacidad">
+      <div className="mx-auto max-w-[68ch] space-y-10 font-sans text-base leading-relaxed text-tinta/85">
+        <section>
+          <h2 className="mb-3 titular text-3xl text-tinta">Uso de los contenidos</h2>
+          <p>
+            Las notas, fotografías y gráficos de El Telégrafo de Los Charrúas pertenecen al diario o a sus autores. Podés
+            citar o reproducir parte de una nota si mencionás la fuente y enlazás a la publicación original.
+          </p>
+        </section>
 
-      <main className="max-w-4xl mx-auto px-4 py-12 font-serif bg-white text-[#0a192f]">
-        <div className="border-b-4 border-[#D4AF37] pb-4 mb-8">
-          <span className="text-xs uppercase font-sans tracking-widest text-[#D4AF37] font-bold block mb-1">
-            El Telégrafo de Los Charrúas • Marco Institucional
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold uppercase font-[family-name:var(--font-cinzel)] text-[#0a192f]">
-            Términos y Privacidad
-          </h1>
-        </div>
+        <section>
+          <h2 className="mb-3 titular text-3xl text-tinta">Datos personales</h2>
+          <p>
+            Cuando escribís a la redacción o enviás una carta de lectores guardamos lo que completás en el formulario:
+            nombre, correo electrónico, localidad (en las cartas) y el texto. Lo usamos únicamente para leer tu mensaje,
+            responderte y, en el caso de las cartas, publicarlas con tu firma.
+          </p>
+          <p className="mt-3">
+            No vendemos ni cedemos esos datos. Si querés que borremos un mensaje tuyo, pedilo desde el{' '}
+            <Link href="/contacto" className={claseEnlace}>formulario de contacto</Link>.
+          </p>
+        </section>
 
-        <div className="space-y-8 text-sm font-sans leading-relaxed text-gray-700 bg-white">
-          <section className="border-b border-gray-200 pb-6">
-            <h2 className="font-serif text-xl font-bold text-[#0a192f] mb-3 uppercase">
-              1. Propiedad Intelectual
-            </h2>
-            <p>
-              Todos los artículos, notas, fotografías y elementos gráficos de <strong>El Telégrafo de Los Charrúas</strong> son propiedad exclusiva del medio o de sus redactores colaboradores. Queda prohibida la reproducción total o parcial sin mención fehaciente de la fuente y enlace directo a la publicación original.
-            </p>
-          </section>
+        <section>
+          <h2 className="mb-3 titular text-3xl text-tinta">Cookies</h2>
+          <p>
+            El sitio no usa cookies para seguir a los lectores ni herramientas de medición de audiencia. La única cookie
+            propia es la que mantiene abierta la sesión de quienes administran el diario. Los avisos publicitarios de
+            terceros pueden usar sus propias cookies.
+          </p>
+        </section>
 
-          <section className="border-b border-gray-200 pb-6">
-            <h2 className="font-serif text-xl font-bold text-[#0a192f] mb-3 uppercase">
-              2. Protección de Datos Personales
-            </h2>
-            <p>
-              La información facilitada en formularios de contacto o cartas de lectores es tratada bajo estricta confidencialidad y no será comercializada ni cedida a terceros bajo ningún concepto, salvo requerimiento judicial expreso.
-            </p>
-          </section>
-
-          <section className="border-b border-gray-200 pb-6">
-            <h2 className="font-serif text-xl font-bold text-[#0a192f] mb-3 uppercase">
-              3. Uso de Cookies
-            </h2>
-            <p>
-              Este sitio utiliza cookies técnicas indispensables para asegurar la sesión de usuario, optimizar la navegación y medir métricas anónimas de audiencia que permiten mejorar el servicio informativo.
-            </p>
-          </section>
-
-          <section className="pb-6">
-            <h2 className="font-serif text-xl font-bold text-[#0a192f] mb-3 uppercase">
-              4. Límites de Responsabilidad
-            </h2>
-            <p>
-              Las opiniones expresadas en columnas firmadas y cartas de lectores corresponden estrictamente a la visión de sus respectivos autores y no comprometen la postura institucional de <strong>El Telégrafo de Los Charrúas</strong>.
-            </p>
-          </section>
-        </div>
-      </main>
-    </div>
+        <section>
+          <h2 className="mb-3 titular text-3xl text-tinta">Opiniones</h2>
+          <p>
+            Las columnas firmadas y las cartas de lectores expresan la opinión de sus autores, no necesariamente la del
+            diario.
+          </p>
+        </section>
+      </div>
+    </PaginaInstitucional>
   )
 }

@@ -10,6 +10,7 @@ import { requireAdmin } from '@/lib/auth'
 import { SESSION_COOKIE, SESSION_MAX_AGE, createSessionToken } from '@/lib/session'
 import { escapeHtml, parseHttpUrl, sanitizeArticleHtml } from '@/lib/sanitize'
 import { isAdLocation } from '@/lib/ads'
+import { LIMITES, MOTIVOS_CONTACTO, asegurarTablaMensajes } from '@/lib/mensajes'
 
 export type ActionResult = { ok: true } | { ok: false; error: string }
 
@@ -265,5 +266,80 @@ export async function borrarAnuncio(id: string): Promise<ActionResult> {
   await prisma.advertisement.deleteMany({ where: { id } })
 
   revalidatePath('/', 'layout')
+  return { ok: true }
+}
+
+// --- MENSAJES DE LECTORES ---
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/**
+ * Guarda un mensaje del formulario de contacto o una carta de lectores.
+ * Es la única acción pública (sin sesión): por eso valida y limita todo.
+ */
+export async function enviarMensaje(formData: FormData): Promise<ActionResult> {
+  // Campo trampa: las personas no lo ven; los robots lo completan
+  if (text(formData, 'sitio')) return { ok: true }
+
+  const kind = text(formData, 'kind') === 'CARTA' ? 'CARTA' : 'CONTACTO'
+  const name = text(formData, 'name')
+  const email = text(formData, 'email')
+  const locality = text(formData, 'locality')
+  const subject = text(formData, 'subject')
+  const body = text(formData, 'body')
+
+  if (!name) return fail('Escribí tu nombre y apellido.')
+  if (!email || !EMAIL.test(email)) return fail('Escribí un correo electrónico válido para que podamos responderte.')
+  if (!body) return fail(kind === 'CARTA' ? 'Falta el texto de la carta.' : 'Falta el mensaje.')
+  if (kind === 'CARTA' && !locality) return fail('Indicá tu localidad.')
+  if (kind === 'CONTACTO' && !(MOTIVOS_CONTACTO as readonly string[]).includes(subject)) {
+    return fail('Elegí el motivo del mensaje.')
+  }
+  if (
+    name.length > LIMITES.nombre || email.length > LIMITES.email || locality.length > LIMITES.localidad ||
+    subject.length > LIMITES.asunto || body.length > LIMITES.mensaje
+  ) {
+    return fail('El mensaje es demasiado largo. Acortalo y volvé a enviarlo.')
+  }
+
+  try {
+    await asegurarTablaMensajes()
+
+    // Freno simple contra envíos masivos
+    const ultimaHora = await prisma.message.count({
+      where: { createdAt: { gt: new Date(Date.now() - 60 * 60 * 1000) } },
+    })
+    if (ultimaHora >= 60) return fail('Estamos recibiendo muchos mensajes. Probá de nuevo en un rato.')
+
+    await prisma.message.create({
+      data: { kind, name, email, locality: locality || null, subject: subject || null, body },
+    })
+  } catch (error) {
+    console.error('No se pudo guardar el mensaje:', error)
+    return fail('No pudimos guardar tu mensaje. Probá de nuevo en unos minutos.')
+  }
+
+  return { ok: true }
+}
+
+export async function getMensajes() {
+  await requireAdmin()
+  await asegurarTablaMensajes()
+  return await prisma.message.findMany({ orderBy: { createdAt: 'desc' }, take: 300 })
+}
+
+export async function marcarMensajeLeido(id: string, read: boolean): Promise<ActionResult> {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return fail('Mensaje inválido.')
+  await asegurarTablaMensajes()
+  await prisma.message.updateMany({ where: { id }, data: { read: Boolean(read) } })
+  return { ok: true }
+}
+
+export async function borrarMensaje(id: string): Promise<ActionResult> {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return fail('Mensaje inválido.')
+  await asegurarTablaMensajes()
+  await prisma.message.deleteMany({ where: { id } })
   return { ok: true }
 }

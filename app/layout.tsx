@@ -1,25 +1,44 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Cinzel } from 'next/font/google'
+import { Bodoni_Moda, Newsreader, Archivo } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/Footer'
 
-const playfair = Playfair_Display({ 
+// Bodoni Moda: didona de alto contraste, para el nombre del diario y los títulos.
+// Newsreader: serif pensada para leer noticias (bajadas y cuerpo de las notas).
+// Archivo: sans de la fundidora argentina Omnibus-Type (menú, firmas, formularios).
+const bodoni = Bodoni_Moda({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-playfair'
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-bodoni',
+  display: 'swap',
 })
 
-const cinzel = Cinzel({
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['700', '900'],
-  variable: '--font-cinzel'
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-newsreader',
+  display: 'swap',
+})
+
+const archivo = Archivo({
+  subsets: ['latin'],
+  variable: '--font-archivo',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'El Telégrafo de Los Charrúas | Portal Digital',
-  description: 'Diario digital El Telégrafo de Los Charrúas. Noticias de actualidad, economía, política y sociedad regional.',
-  icons: {
-    icon: '/favicon.ico',
+  title: {
+    default: 'El Telégrafo de Los Charrúas | Diario digital de Entre Ríos',
+    template: '%s | El Telégrafo de Los Charrúas',
+  },
+  description:
+    'Diario digital de Los Charrúas: noticias de la localidad y de toda la provincia de Entre Ríos. Política, economía, sociedad, país y mundo.',
+  openGraph: {
+    siteName: 'El Telégrafo de Los Charrúas',
+    locale: 'es_AR',
+    type: 'website',
   },
 }
 
@@ -29,14 +48,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" style={{ colorScheme: 'light', backgroundColor: '#ffffff' }}>
-      <body 
-        style={{ colorScheme: 'light', backgroundColor: '#ffffff', color: '#0a192f' }}
-        className={`${playfair.variable} ${cinzel.variable} font-serif antialiased bg-white text-[#0a192f] selection:bg-[#D4AF37] selection:text-[#0a192f] min-h-screen flex flex-col justify-between`}
+    <html lang="es-AR" style={{ colorScheme: 'light', backgroundColor: '#ffffff' }}>
+      <body
+        style={{ colorScheme: 'light', backgroundColor: '#ffffff', color: '#0d1e32' }}
+        className={`${bodoni.variable} ${newsreader.variable} ${archivo.variable} flex min-h-screen flex-col bg-papel font-serif text-tinta antialiased selection:bg-oro selection:text-tinta`}
       >
-        <div className="bg-white">
-          {children}
-        </div>
+        <div className="flex-1 bg-papel">{children}</div>
         <Footer />
       </body>
     </html>

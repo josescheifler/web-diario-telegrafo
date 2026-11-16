@@ -11,12 +11,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0a192f] flex flex-col justify-center items-center p-4 font-serif">
       <div className="w-full max-w-md bg-white p-8 border-2 border-[#D4AF37] shadow-2xl">
         <div className="flex flex-col items-center mb-6">
-          <img src="/favicon.ico" alt="El Telégrafo" className="w-12 h-12 mb-3 object-contain" />
-          <h1 className="text-2xl font-black text-[#0a192f] tracking-widest uppercase font-[family-name:var(--font-cinzel)] text-center">
+          <img src="/logo.png" alt="" className="w-14 h-14 mb-3 object-contain" />
+          <h1 className="text-3xl font-semibold text-[#0a192f] font-serif text-center">
             El Telégrafo
           </h1>
-          <p className="text-xs text-gray-500 font-sans tracking-widest uppercase mt-1">
-            Acceso a Redacción y Administración
+          <p className="text-sm text-gray-500 font-sans mt-1">
+            Acceso a la redacción
           </p>
         </div>
 
