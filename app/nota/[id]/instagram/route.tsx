@@ -23,11 +23,38 @@ const fuentes = Promise.all([
   fuente('archivo-latin-600-normal.woff'),
 ])
 
+/**
+ * Los bancos de fotos sirven el original (varios MB) si no se pide un tamaño, y la imagen
+ * no llega a armarse a tiempo. Se pide una versión de 1080 px de ancho en JPG.
+ */
+function versionLiviana(url: string): string {
+  try {
+    const u = new URL(url)
+    if (u.hostname === 'images.pexels.com') {
+      u.search = '?auto=compress&cs=tinysrgb&w=1080&fm=jpg'
+    } else if (u.hostname === 'images.unsplash.com') {
+      u.searchParams.set('w', '1080')
+      u.searchParams.set('q', '80')
+      u.searchParams.set('fm', 'jpg')
+    } else if (u.hostname === 'upload.wikimedia.org' && !u.pathname.includes('/thumb/')) {
+      // /wikipedia/commons/a/ab/Archivo.jpg -> /wikipedia/commons/thumb/a/ab/Archivo.jpg/1080px-Archivo.jpg
+      const partes = u.pathname.split('/')
+      const archivo = partes.pop()
+      if (archivo && partes.length >= 5) {
+        u.pathname = [...partes.slice(0, 3), 'thumb', ...partes.slice(3), archivo, `1080px-${archivo}`].join('/')
+      }
+    }
+    return u.toString()
+  } catch {
+    return url
+  }
+}
+
 /** Trae la foto de la nota como data URL; si no se puede, la placa sale sin foto. */
 async function fotoComoDataUrl(url: string): Promise<string | null> {
   if (!/^https?:\/\//.test(url)) return null
   try {
-    const respuesta = await fetch(url, { signal: AbortSignal.timeout(5000) })
+    const respuesta = await fetch(versionLiviana(url), { signal: AbortSignal.timeout(5000) })
     const tipo = respuesta.headers.get('content-type') ?? ''
     if (!respuesta.ok || !/^image\/(jpeg|png)/.test(tipo)) return null
     const datos = Buffer.from(await respuesta.arrayBuffer())
