@@ -73,12 +73,15 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   await sincronizarSugerencias()
   const nota = await prisma.article.findUnique({
     where: { id },
-    select: { title: true, header: true, section: true, featuredImage: true, published: true },
+    select: { title: true, header: true, section: true, featuredImage: true, content: true, published: true },
   })
   if (!nota || !nota.published) return new Response('No existe esa nota', { status: 404 })
 
   const [bodoni, bodoniItalica, archivo, archivoSemi] = await fuentes
   const foto = nota.featuredImage ? await fotoComoDataUrl(nota.featuredImage) : null
+
+  // Las fotos con licencia libre llevan su crédito al pie de la nota ("Foto: …"): se repite en la imagen
+  const credito = foto ? nota.content.match(/Foto: ([^<]+?)\.?<\/em>/)?.[1]?.trim() ?? null : null
 
   const largo = nota.title.length
   const tamTitulo = foto ? (largo <= 60 ? 68 : largo <= 100 ? 58 : 50) : largo <= 60 ? 96 : largo <= 100 ? 80 : 66
@@ -120,6 +123,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', padding: '0 80px 64px' }}>
+          {credito && (
+            <div style={{ fontFamily: 'Archivo', fontWeight: 500, fontSize: 20, color: 'rgba(255,255,255,0.55)', marginBottom: 22 }}>
+              Foto: {recortar(credito, 90)}
+            </div>
+          )}
           <FiletMorse ancho={ANCHO - 160} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 30 }}>
             <div style={{ fontFamily: 'Bodoni', fontSize: 52, letterSpacing: -1.5 }}>El Telégrafo</div>

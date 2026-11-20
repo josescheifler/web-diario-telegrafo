@@ -16,7 +16,8 @@ export const PUBLICAR_AUTOMATICAMENTE = true
 /** Solo se publican las notas de los últimos días: una vieja que no entró, ya no sirve. */
 const DIAS_VIGENCIA = 3
 
-export type Fuente = { medio: string; url: string }
+export type Fuente = { medio: string; url: string; citar: boolean }
+export type Foto = { url: string; credito: string }
 
 export type Sugerencia = {
   id: string
@@ -26,6 +27,7 @@ export type Sugerencia = {
   bajada: string
   cuerpo: string
   fuentes: Fuente[]
+  foto: Foto | null
 }
 
 export type EstadoSugerencia = 'PENDIENTE' | 'PUBLICADA' | 'DESCARTADA'
@@ -41,10 +43,19 @@ export function leerSugerencias(): Sugerencia[] {
   return cache
 }
 
-/** Párrafo final con las fuentes de la nota. */
-export function htmlDeFuentes(fuentes: Fuente[]): string {
-  const enlaces = fuentes.map((f) => `<a href="${escapeHtml(f.url)}">${escapeHtml(f.medio)}</a>`).join(', ')
-  return `<p><em>${fuentes.length > 1 ? 'Fuentes' : 'Fuente'}: ${enlaces}.</em></p>`
+/**
+ * Párrafo final con las fuentes que se citan y el crédito de la foto.
+ * Las fuentes con "citar": false no se nombran (se usan solo como referencia interna).
+ */
+export function htmlDeFuentes(fuentes: Fuente[], foto: Foto | null = null): string {
+  const citadas = fuentes.filter((f) => f.citar)
+  const partes: string[] = []
+  if (citadas.length > 0) {
+    const enlaces = citadas.map((f) => `<a href="${escapeHtml(f.url)}">${escapeHtml(f.medio)}</a>`).join(', ')
+    partes.push(`${citadas.length > 1 ? 'Fuentes' : 'Fuente'}: ${enlaces}.`)
+  }
+  if (foto) partes.push(`Foto: ${escapeHtml(foto.credito)}.`)
+  return partes.length > 0 ? `<p><em>${partes.join(' ')}</em></p>` : ''
 }
 
 // La tabla se agregó después de crear la base. Para no depender de que alguien
@@ -149,8 +160,8 @@ export async function sincronizarSugerencias(): Promise<void> {
               title: s.titulo,
               header: s.bajada,
               section: s.seccion as Section,
-              featuredImage: '',
-              content: sanitizeArticleHtml(s.cuerpo + htmlDeFuentes(s.fuentes)),
+              featuredImage: s.foto?.url ?? '',
+              content: sanitizeArticleHtml(s.cuerpo + htmlDeFuentes(s.fuentes, s.foto)),
               authorId: autorId,
               published: true,
               createdAt: new Date(base + i * 1000),

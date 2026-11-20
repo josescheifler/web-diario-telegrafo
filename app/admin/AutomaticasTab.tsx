@@ -110,6 +110,7 @@ export default function AutomaticasTab({ onEditar }: { onEditar: (id: string) =>
                           <span key={f.url}>
                             {i > 0 && ', '}
                             <a href={f.url} target="_blank" rel="noopener noreferrer" className="underline">{f.medio}</a>
+                            {!f.citar && ' (no se cita)'}
                           </span>
                         ))}
                       </p>
