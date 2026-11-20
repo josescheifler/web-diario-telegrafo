@@ -7,13 +7,13 @@ nadie las revisa antes de salir, estas pautas son estrictas: ante la duda, una n
 
 ## Qué se busca cada día
 
-Ocho notas, de hechos publicados en las últimas 36 horas, elegidas con la línea editorial del
+Diez notas, de hechos publicados en las últimas 36 horas, elegidas con la línea editorial del
 diario (ver más abajo):
 
 | Sección (`seccion`) | Cantidad | Qué cubre |
 | --- | --- | --- |
-| `LOCAL` | 2 | Los Charrúas, La Criolla y Colonia Ayuí, y su zona: Colonia Yuquerí, Estación Yuquerí, Los Charrúas rural. Las tres localidades valen lo mismo. Si no hay dos hechos de ellas, la segunda puede ser de la zona rural del departamento Concordia. |
-| `REGIONAL` | 1 | Entre Ríos: Concordia, Paraná y el resto de la provincia. |
+| `LOCAL` | 3 | Los Charrúas, La Criolla y Colonia Ayuí, y su zona: Colonia Yuquerí, Estación Yuquerí, Los Charrúas rural. Las tres localidades valen lo mismo. Si no hay tres hechos de ellas, las que faltan pueden ser de la zona rural del departamento Concordia. |
+| `REGIONAL` | 2 | Entre Ríos: Concordia, Paraná y el resto de la provincia. Mejor si son de lugares o temas distintos. |
 | `PAIS` | 1 | Argentina. |
 | `MUNDO` | 1 | Internacional. |
 | `POLITICA` | 1 | Política provincial o nacional. |
