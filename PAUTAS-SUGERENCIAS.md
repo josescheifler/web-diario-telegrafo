@@ -12,7 +12,7 @@ diario (ver más abajo):
 
 | Sección (`seccion`) | Cantidad | Qué cubre |
 | --- | --- | --- |
-| `LOCAL` | 2 | Los Charrúas y su zona: La Criolla, Colonia Yuquerí, Estación Yuquerí, Los Charrúas rural. Si no hay dos hechos de la localidad, la segunda puede ser de la zona rural del departamento Concordia. |
+| `LOCAL` | 2 | Los Charrúas, La Criolla y Colonia Ayuí, y su zona: Colonia Yuquerí, Estación Yuquerí, Los Charrúas rural. Las tres localidades valen lo mismo. Si no hay dos hechos de ellas, la segunda puede ser de la zona rural del departamento Concordia. |
 | `REGIONAL` | 1 | Entre Ríos: Concordia, Paraná y el resto de la provincia. |
 | `PAIS` | 1 | Argentina. |
 | `MUNDO` | 1 | Internacional. |
@@ -27,7 +27,14 @@ rellena.
 
 **Local** (en este orden):
 
-1. La Región Digital: https://regiondigital.com.ar/category/los-charruas/ y https://regiondigital.com.ar/category/la-criolla/
+1. La Región Digital: https://regiondigital.com.ar/category/los-charruas/, https://regiondigital.com.ar/category/la-criolla/
+   y la portada https://regiondigital.com.ar/ (para Colonia Ayuí, que no tiene categoría propia; también se puede
+   buscar con WebSearch limitado a `regiondigital.com.ar` y "Ayuí").
+   **Su página de Facebook a veces publica antes que la web**: revisarla también (WebSearch limitado a
+   `facebook.com` con "La Región Digital" y el nombre de la localidad, y abrir la publicación). Facebook suele
+   bloquear la lectura automática: si no carga, seguir con las otras fuentes. Una publicación de Facebook vale
+   como fuente solo si se puede abrir y ver su fecha; nunca se escribe a partir del resumen del buscador. Igual
+   que la web, no se nombra y va en `fuentes` con `"citar": false` (con el enlace a la publicación).
 2. Diario News Media: https://diarionewsmedia.com/category/local/
 3. Diario La Gacela: https://www.diariolagacela.com.ar/
 4. Municipalidad de Los Charrúas: https://www.loscharruas.gob.ar/
