@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Morse from '@/components/Morse'
 import { fechaCorta } from '@/lib/fechas'
 import { nombreSeccion, urlSeccion } from '@/lib/secciones'
 
@@ -23,6 +24,20 @@ type Props = {
   conBajada?: boolean
   /** Para bloques con fondo azul */
   oscuro?: boolean
+}
+
+/** Foto de la nota o, si no tiene, una placa azul con el nombre de la sección. */
+function Foto({ nota, aspecto, lazy = false }: { nota: NotaResumen; aspecto: string; lazy?: boolean }) {
+  if (nota.featuredImage) {
+    return <img src={nota.featuredImage} alt="" loading={lazy ? 'lazy' : undefined} className={`foto ${aspecto} w-full object-cover`} />
+  }
+  const seccion = nombreSeccion(nota.section)
+  return (
+    <div className={`foto ${aspecto} flex w-full flex-col items-center justify-center gap-4 bg-tinta-honda px-6 text-center`}>
+      <span className="font-display text-3xl leading-none font-medium tracking-[-0.03em] text-white italic sm:text-4xl">{seccion}</span>
+      <Morse texto={seccion} alto={4} className="text-oro" />
+    </div>
+  )
 }
 
 export function Volanta({ seccion, oscuro = false }: { seccion: string; oscuro?: boolean }) {
@@ -54,7 +69,7 @@ export default function TarjetaNota({ nota, formato = 'media', sinSeccion = fals
     return (
       <article className="grid grid-cols-1 items-center gap-x-14 gap-y-7 lg:grid-cols-2">
         <Link href={href} className={`block overflow-hidden lg:order-2 ${fondoFoto}`}>
-          <img src={nota.featuredImage} alt="" className="foto aspect-[4/3] w-full object-cover" />
+          <Foto nota={nota} aspecto="aspect-[4/3]" />
         </Link>
         <div className="lg:order-1">
           {volanta}
@@ -72,7 +87,7 @@ export default function TarjetaNota({ nota, formato = 'media', sinSeccion = fals
     return (
       <article>
         <Link href={href} className={`block overflow-hidden ${fondoFoto}`}>
-          <img src={nota.featuredImage} alt="" className="foto aspect-[16/9] w-full object-cover" />
+          <Foto nota={nota} aspecto="aspect-[16/9]" />
         </Link>
         <div className="mt-6 max-w-4xl">
           {volanta}
@@ -103,7 +118,7 @@ export default function TarjetaNota({ nota, formato = 'media', sinSeccion = fals
     return (
       <article className="grid grid-cols-1 items-center gap-x-10 gap-y-5 sm:grid-cols-12">
         <Link href={href} className={`block overflow-hidden sm:col-span-6 ${fondoFoto}`}>
-          <img src={nota.featuredImage} alt="" loading="lazy" className="foto aspect-[3/2] w-full object-cover" />
+          <Foto nota={nota} aspecto="aspect-[3/2]" lazy />
         </Link>
         <div className="sm:col-span-6">
           {volanta}
@@ -120,7 +135,7 @@ export default function TarjetaNota({ nota, formato = 'media', sinSeccion = fals
   return (
     <article className="flex flex-col">
       <Link href={href} className={`block overflow-hidden ${fondoFoto}`}>
-        <img src={nota.featuredImage} alt="" loading="lazy" className="foto aspect-[3/2] w-full object-cover" />
+        <Foto nota={nota} aspecto="aspect-[3/2]" lazy />
       </Link>
       <div className="mt-5">
         {volanta}

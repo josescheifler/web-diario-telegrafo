@@ -29,6 +29,7 @@ Cambiar `ADMIN_PASSWORD` (o `SESSION_SECRET`) cierra todas las sesiones abiertas
 - **Notas**: redactar, publicar y borrar.
 - **Autores**: alta y baja.
 - **Publicidad**: cargar anuncios (imagen con enlace o código HTML), elegir su ubicación, pausarlos, editarlos y borrarlos.
+- **Automáticas**: las notas que redacta la búsqueda diaria y se publican solas (ver más abajo).
 - **Mensajes**: lo que los lectores envían desde "Escribir a la redacción" y "Cartas de lectores". La tabla `Message` se crea sola la primera vez (ver `lib/mensajes.ts`).
 
 ### Ubicaciones de publicidad
@@ -40,6 +41,22 @@ Cambiar `ADMIN_PASSWORD` (o `SESSION_SECRET`) cierra todas las sesiones abiertas
 | Dentro de la nota | Al final del cuerpo de cada noticia | 728 × 90 px |
 
 Si hay varios anuncios activos en una misma ubicación se muestran todos, uno debajo del otro. Las ubicaciones se definen en `lib/ads.ts` y se muestran con el componente `components/AdSlot.tsx`.
+
+## Notas automáticas
+
+Una tarea programada busca noticias todas las mañanas, redacta notas propias siguiendo
+`PAUTAS-SUGERENCIAS.md` y las agrega a `contenido/sugerencias.json`. Al subir ese archivo, el
+sitio se actualiza y publica las notas nuevas en la primera visita (`lib/sugerencias.ts`), sin
+foto, firmadas por "Redacción El Telégrafo" y con la fuente al pie. Cada nota queda en
+`/nota/<id>`. Para dejar de publicarlas solas, poner `PUBLICAR_AUTOMATICAMENTE = false`.
+
+Antes de subir cambios al archivo: `npm run validar-sugerencias`.
+
+## Instagram
+
+`/nota/<id>/instagram` genera una imagen de 1080 × 1350 de cualquier nota publicada, lista
+para Instagram. Desde el panel se abre con el botón "Instagram" (Notas) o "Imagen para
+Instagram" (Automáticas), y en Automáticas también se copia el texto para la publicación.
 
 ## Diseño
 

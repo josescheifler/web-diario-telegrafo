@@ -11,6 +11,10 @@ import { SESSION_COOKIE, SESSION_MAX_AGE, createSessionToken } from '@/lib/sessi
 import { escapeHtml, parseHttpUrl, sanitizeArticleHtml } from '@/lib/sanitize'
 import { isAdLocation } from '@/lib/ads'
 import { LIMITES, MOTIVOS_CONTACTO, asegurarTablaMensajes } from '@/lib/mensajes'
+import {
+  asegurarTablaSugerencias, forzarSincronizacion, leerSugerencias, sincronizarSugerencias, type EstadoSugerencia,
+} from '@/lib/sugerencias'
+import { SECCIONES } from '@/lib/secciones'
 
 export type ActionResult = { ok: true } | { ok: false; error: string }
 
@@ -120,6 +124,7 @@ export async function borrarAutor(id: string): Promise<ActionResult> {
 
 export async function getNotas() {
   await requireAdmin()
+  await sincronizarSugerencias()
   return await prisma.article.findMany({
     orderBy: { createdAt: 'desc' },
     select: {
@@ -131,28 +136,43 @@ export async function getNotas() {
   })
 }
 
-export async function crearNota(formData: FormData, content: string): Promise<ActionResult> {
-  await requireAdmin()
+type DatosArticulo = {
+  title: string
+  header: string
+  section: Section
+  featuredImage: string
+  content: string
+  authorId: string
+}
 
+/** Valida los campos de una nota y resuelve el autor. Lo usan crearNota y actualizarNota. */
+async function prepararArticulo(
+  formData: FormData,
+  content: string
+): Promise<{ ok: false; error: string } | { ok: true; datos: DatosArticulo }> {
   const title = text(formData, 'title')
   const header = text(formData, 'header')
   const section = text(formData, 'section')
-  const featuredImage = parseHttpUrl(text(formData, 'featuredImage'))
+  const imagenTexto = text(formData, 'featuredImage')
+  // La imagen es opcional: sin foto, el sitio muestra una placa con el nombre de la sección
+  const featuredImage = imagenTexto ? parseHttpUrl(imagenTexto) : ''
   let authorId = text(formData, 'authorId')
 
-  if (!title || !header) return fail('El título y la bajada son obligatorios.')
-  if (!isSection(section)) return fail('Elegí una sección válida.')
-  if (!featuredImage) return fail('La imagen principal debe ser una URL que empiece con http:// o https://')
+  if (!title || !header) return { ok: false, error: 'El título y la bajada son obligatorios.' }
+  if (!isSection(section)) return { ok: false, error: 'Elegí una sección válida.' }
+  if (featuredImage === null) {
+    return { ok: false, error: 'La imagen principal debe ser una URL que empiece con http:// o https://' }
+  }
 
   // El cuerpo se limpia en el servidor: nunca se guarda HTML peligroso
   const cleanContent = sanitizeArticleHtml(typeof content === 'string' ? content : '')
   if (!cleanContent.replace(/<[^>]*>/g, '').trim()) {
-    return fail('El cuerpo de la nota está vacío.')
+    return { ok: false, error: 'El cuerpo de la nota está vacío.' }
   }
 
   if (authorId) {
     const author = await prisma.author.findUnique({ where: { id: authorId } })
-    if (!author) return fail('El autor elegido ya no existe.')
+    if (!author) return { ok: false, error: 'El autor elegido ya no existe.' }
   } else {
     let fallbackAuthor = await prisma.author.findFirst()
     if (!fallbackAuthor) {
@@ -163,17 +183,16 @@ export async function crearNota(formData: FormData, content: string): Promise<Ac
     authorId = fallbackAuthor.id
   }
 
-  await prisma.article.create({
-    data: {
-      title,
-      header,
-      section,
-      featuredImage,
-      content: cleanContent,
-      authorId,
-      published: true
-    }
-  })
+  return { ok: true, datos: { title, header, section, featuredImage, content: cleanContent, authorId } }
+}
+
+export async function crearNota(formData: FormData, content: string): Promise<ActionResult> {
+  await requireAdmin()
+
+  const preparado = await prepararArticulo(formData, content)
+  if (!preparado.ok) return fail(preparado.error)
+
+  await prisma.article.create({ data: { ...preparado.datos, published: true } })
 
   revalidatePath('/', 'layout')
   return { ok: true }
@@ -341,5 +360,90 @@ export async function borrarMensaje(id: string): Promise<ActionResult> {
   if (typeof id !== 'string' || !id) return fail('Mensaje inválido.')
   await asegurarTablaMensajes()
   await prisma.message.deleteMany({ where: { id } })
+  return { ok: true }
+}
+
+// --- NOTAS AUTOMÁTICAS (búsqueda diaria) ---
+
+export async function getSugerencias() {
+  await requireAdmin()
+  await sincronizarSugerencias()
+  await asegurarTablaSugerencias()
+
+  const sugerencias = leerSugerencias()
+  const filas = sugerencias.length
+    ? await prisma.suggestionStatus.findMany({ where: { id: { in: sugerencias.map((s) => s.id) } } })
+    : []
+  const estados = new Map(filas.map((f) => [f.id, f]))
+  const orden = SECCIONES.map((s) => s.valor as string)
+
+  return sugerencias
+    .map((s) => ({
+      id: s.id,
+      fecha: s.fecha,
+      seccion: s.seccion,
+      titulo: s.titulo,
+      bajada: s.bajada,
+      fuentes: s.fuentes,
+      estado: (estados.get(s.id)?.status ?? 'PENDIENTE') as EstadoSugerencia,
+      articleId: estados.get(s.id)?.articleId ?? null,
+    }))
+    .sort((a, b) => b.fecha.localeCompare(a.fecha) || orden.indexOf(a.seccion) - orden.indexOf(b.seccion))
+}
+
+/** Saca del sitio una nota automática y evita que se vuelva a cargar. */
+export async function quitarAutomatica(id: string): Promise<ActionResult> {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return fail('Nota inválida.')
+
+  await asegurarTablaSugerencias()
+  const estado = await prisma.suggestionStatus.findUnique({ where: { id } })
+  if (estado?.articleId) await prisma.article.deleteMany({ where: { id: estado.articleId } })
+  await prisma.suggestionStatus.upsert({
+    where: { id },
+    create: { id, status: 'DESCARTADA' },
+    update: { status: 'DESCARTADA', articleId: null },
+  })
+
+  revalidatePath('/', 'layout')
+  return { ok: true }
+}
+
+/** Vuelve a publicar una nota automática que se había quitado. */
+export async function republicarAutomatica(id: string): Promise<ActionResult> {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return fail('Nota inválida.')
+
+  await asegurarTablaSugerencias()
+  await prisma.suggestionStatus.deleteMany({ where: { id, status: 'DESCARTADA' } })
+  forzarSincronizacion()
+  await sincronizarSugerencias()
+
+  revalidatePath('/', 'layout')
+  return { ok: true }
+}
+
+// --- EDICIÓN DE NOTAS ---
+
+export async function getNota(id: string) {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return null
+  return await prisma.article.findUnique({
+    where: { id },
+    select: { id: true, title: true, header: true, section: true, featuredImage: true, content: true, authorId: true },
+  })
+}
+
+export async function actualizarNota(id: string, formData: FormData, content: string): Promise<ActionResult> {
+  await requireAdmin()
+  if (typeof id !== 'string' || !id) return fail('Nota inválida.')
+
+  const preparado = await prepararArticulo(formData, content)
+  if (!preparado.ok) return fail(preparado.error)
+
+  const resultado = await prisma.article.updateMany({ where: { id }, data: preparado.datos })
+  if (resultado.count === 0) return fail('La nota ya no existe.')
+
+  revalidatePath('/', 'layout')
   return { ok: true }
 }

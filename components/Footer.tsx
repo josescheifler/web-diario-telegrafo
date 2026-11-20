@@ -43,7 +43,7 @@ export default function Footer() {
       <div className="border-t border-white/15">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-white/60 sm:flex-row sm:px-8">
           <p>El Telégrafo de Los Charrúas. Los Charrúas, Entre Ríos, Argentina.</p>
-          <Link href="/admin/login" className="hover:text-oro">Acceso a la redacción</Link>
+          <Link href="/admin/login" className="font-medium text-oro hover:underline">Acceso a la redacción</Link>
         </div>
       </div>
     </footer>

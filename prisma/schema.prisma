@@ -61,3 +61,12 @@ model Message {
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+// Estado de las sugerencias de notas (contenido/sugerencias.json): publicada o descartada.
+// Las que no tienen fila están pendientes. La tabla se crea sola (ver lib/sugerencias.ts).
+model SuggestionStatus {
+  id        String   @id
+  status    String   // PUBLICADA o DESCARTADA
+  articleId String?
+  updatedAt DateTime @default(now()) @updatedAt
+}

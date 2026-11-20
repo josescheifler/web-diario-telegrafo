@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
+import { sincronizarSugerencias } from '@/lib/sugerencias'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import Cabecera from '@/components/Cabecera'
@@ -29,6 +30,7 @@ async function NotasDeSeccion({ slug }: { slug: string }) {
   const seccion = seccionPorSlug(slug)
   if (!seccion) return notFound()
 
+  await sincronizarSugerencias()
   const notas = await prisma.article.findMany({
     where: { section: seccion.valor, published: true },
     orderBy: { createdAt: 'desc' },
@@ -67,7 +69,7 @@ async function NotasDeSeccion({ slug }: { slug: string }) {
   )
 }
 
-export default async function SeccionPage({ params }: Params) {
+async function ContenidoSeccion({ params }: Params) {
   const { section } = await params
   const seccion = seccionPorSlug(section)
   if (!seccion) return notFound()
@@ -92,5 +94,22 @@ export default async function SeccionPage({ params }: Params) {
         </Suspense>
       </main>
     </>
+  )
+}
+
+// Los parámetros de la URL se leen dentro de Suspense: así la página nunca
+// bloquea su armado (ni al compilar ni cuando el panel la actualiza).
+export default function SeccionPage({ params }: Params) {
+  return (
+    <Suspense
+      fallback={
+        <>
+          <Cabecera />
+          <div className="bg-tinta-honda py-24" />
+        </>
+      }
+    >
+      <ContenidoSeccion params={params} />
+    </Suspense>
   )
 }
