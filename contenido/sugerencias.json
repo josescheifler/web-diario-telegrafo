@@ -1,3 +1,124 @@
 {
-  "notas": []
+  "notas": [
+    {
+      "id": "2026-11-20-regional-1",
+      "fecha": "2026-11-20",
+      "seccion": "REGIONAL",
+      "titulo": "Vialidad de Entre Ríos incorporó más de 60 máquinas nuevas para rutas y caminos rurales",
+      "bajada": "La compra superó los 15 mil millones de pesos y más de 50 operadores de las zonales ya se capacitaron en el uso de las nuevas motoniveladoras.",
+      "cuerpo": "<p>La Dirección Provincial de Vialidad (DPV) de Entre Ríos recibió más de 60 equipos viales nuevos, en una compra que superó los 15.000 millones de pesos, según informó el Diario La Gacela. En el acto de entrega participaron intendentes y autoridades de distintas localidades de la provincia.</p><p>El director administrador de Vialidad, Exequiel Donda, definió la adquisición como \"una inversión histórica\" pensada para fortalecer el trabajo de las zonales, y aseguró que el organismo hoy paga en término a sus contratistas. En la primera licitación se presentaron 14 oferentes y en la segunda, 17.</p><h2>Caminos rurales y nuevas obras</h2><p>Según el mismo medio, la DPV tiene en marcha más de diez frentes de obra sobre unos 1.100 kilómetros de rutas, prevé un presupuesto cercano a los 180.000 millones de pesos para el año próximo y un plan de mantenimiento de caminos rurales de más de 6.000 millones. Entre los trabajos por venir se mencionaron obras con financiamiento del BID y el acceso norte a Paraná.</p><p>Alejandro Daneri, presidente de la Delegación Argentina ante Salto Grande, señaló que el organismo binacional aporta diez camiones volcadores con acoplado a esta renovación del parque vial.</p><h2>Capacitación para los operadores</h2><p>Elonce informó que más de 50 operadores de las zonales participaron de una jornada teórica y práctica sobre las nuevas motoniveladoras, a cargo de Ronnie Van de Ploeg, especialista del concesionario Agro Norte. Allí se explicó que muchas de las máquinas anteriores trabajaban la mitad de los días o menos por roturas, y se repasaron la revisión diaria y la calibración de los equipos.</p>",
+      "fuentes": [
+        {
+          "medio": "Diario La Gacela",
+          "url": "https://www.diariolagacela.com.ar/municipales/intendentes-y-autoridades-valoraron-la-inversion-del-gobierno-provincial-en-maquinaria-vial-para-sus-localidades/"
+        },
+        {
+          "medio": "Elonce",
+          "url": "https://www.elonce.com/haciendo-comunidad/operadores-de-las-distintas-zonales-de-vialidad.htm"
+        }
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/8809464/pexels-photo-8809464.jpeg",
+        "credito": "Construcción Total / Pexels"
+      }
+    },
+    {
+      "id": "2026-11-20-pais-1",
+      "fecha": "2026-11-20",
+      "seccion": "PAIS",
+      "titulo": "La Corte Suprema declaró inconstitucional la liberación de las cuotas de las prepagas",
+      "bajada": "El fallo unánime anula dos artículos del DNU 70/2023 y devuelve al Estado la facultad de controlar y autorizar los aumentos de la medicina privada.",
+      "cuerpo": "<p>Los aumentos de las empresas de medicina prepaga vuelven a quedar bajo control del Estado. La Corte Suprema de Justicia de la Nación declaró inconstitucionales los artículos 267 y 269 del decreto de necesidad y urgencia 70/2023, con los que el gobierno de Javier Milei había eliminado la supervisión oficial sobre las cuotas, según informaron el diario Río Negro y el sitio Palabras del Derecho.</p><p>La decisión fue unánime y lleva las firmas de Horacio Rosatti, Carlos Rosenkrantz y Ricardo Lorenzetti. Con ella, el Ministerio de Salud, a través de la Superintendencia de Servicios de Salud, recupera las facultades que le da la ley 26.682 para fiscalizar y autorizar los incrementos.</p><h2>El caso que llegó a la Corte</h2><p>El expediente se inició con el amparo de una afiliada de Swiss Medical cuya cuota pasó de 136.161 pesos en diciembre de 2023 a 301.218 pesos en febrero de 2024, una suba del 110%. En primera instancia el reclamo fue rechazado, pero la Sala II de la Cámara Federal de La Plata declaró inconstitucionales los artículos y fijó un tope atado a la inflación.</p><p>La Corte confirmó la inconstitucionalidad, aunque revocó el resto de esa sentencia, incluido el límite por el índice de precios, y ordenó dictar un nuevo fallo. Según Palabras del Derecho, la resolución no fija un aumento máximo, no ordena devoluciones y no se pronuncia sobre el resto del DNU.</p><p>Para los jueces, el decreto no explicó por qué había necesidad y urgencia para saltear al Congreso: los argumentos generales sobre la crisis del sistema de salud no alcanzaban, y la mera conveniencia política del Ejecutivo no justifica ese tipo de norma.</p><h2>La reacción de las empresas</h2><p>Las prepagas rechazaron la decisión. Hugo Magonza, presidente de la Unión Argentina de Salud, habló de \"un nivel de inseguridad jurídica enorme\" y advirtió que la gente podría quedarse sin cobertura, según recogió Elonce con información de la agencia Noticias Argentinas. Quienes respaldan el fallo, señaló ese medio, sostienen que el derecho a la salud debe estar por encima de la rentabilidad de las empresas.</p>",
+      "fuentes": [
+        {
+          "medio": "Diario Río Negro",
+          "url": "https://www.rionegro.com.ar/justicia/freno-a-las-prepagas-la-corte-suprema-declaro-inconstitucional-la-desregulacion-de-cuotas-de-javier-milei-4805475/"
+        },
+        {
+          "medio": "Palabras del Derecho",
+          "url": "https://www.palabrasdelderecho.com.ar/articulo/7107/La-Corte-declaro-inconstitucional-la-desregulacion-de-las-cuotas-de-las-prepagas"
+        },
+        {
+          "medio": "Elonce",
+          "url": "https://www.elonce.com/sociedad/dura-critica-de-las-prepagas-al-fallo-judicial-que-frena-los-aumentos-.htm"
+        }
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/4386464/pexels-photo-4386464.jpeg",
+        "credito": "Kaboompics / Pexels"
+      }
+    },
+    {
+      "id": "2026-11-20-politica-1",
+      "fecha": "2026-11-20",
+      "seccion": "POLITICA",
+      "titulo": "Con 71 votos y ninguno en contra, el Senado convirtió en ley el nuevo régimen de discapacidad",
+      "bajada": "La norma reemplaza la emergencia que vence el 31 de diciembre por un sistema permanente que sostiene las pensiones no contributivas y ordena pagar las deudas con los prestadores.",
+      "cuerpo": "<p>Las personas con discapacidad, sus familias y los prestadores tienen desde este jueves una ley permanente. El Senado de la Nación aprobó por unanimidad, con 71 votos afirmativos y sin abstenciones, el proyecto de \"Fortalecimiento, Sostenibilidad y Eficiencia Permanente del Sistema de Discapacidad\", que llegó desde Diputados y quedó sancionado sin cambios, según informó Perfil.</p><p>De acuerdo con ese medio, el texto toma en buena medida los beneficios de la ley de emergencia 27.793, que vence el 31 de diciembre, pero les quita el carácter transitorio. Página/12 destacó que el voto unánime fue fruto de la movilización de las organizaciones, que acompañaron el debate frente al Congreso y celebraron la sanción.</p><h2>Qué establece</h2><p>La pensión no contributiva será equivalente al 70% del haber jubilatorio mínimo, se actualizará con la movilidad previsional y podrá cobrarse junto con un empleo formal o el monotributo mientras los ingresos no superen dos salarios mínimos. Se exigirá el Certificado Único de Discapacidad y se garantiza la cobertura del programa Incluir Salud para quienes cobran la pensión. El presupuesto del Ministerio de Salud destinado al área no podrá caer en términos reales respecto del año anterior.</p><p>Los aranceles de los prestadores se ajustarán por movilidad y por un estudio de costos. El Estado tendrá 30 días para comunicar un cronograma de pagos y un máximo de 90 días corridos para saldar lo adeudado, que Perfil estimó en unos 278.300 millones de pesos. Las auditorías deberán notificar y dar derecho a descargo antes de cualquier suspensión, y el Poder Ejecutivo tiene 30 días para reglamentar.</p><h2>Las voces del debate</h2><p>El miembro informante, Agustín Monteverde, citó un costo de 1,2 billones de pesos para 2028 según la Oficina de Presupuesto del Congreso y sostuvo que el proyecto no implica recortes. Desde el peronismo, la senadora Lucía Corpacci advirtió que Incluir Salud tendría en el Presupuesto 2027 \"un recorte real del 13%\", y Jorge Capitanich cuestionó el ajuste acumulado en el área desde 2023. Alicia Kirchner consideró \"imprescindible\" acompañar la ley.</p><p>Según Perfil, el oficialismo, con Patricia Bullrich al frente del bloque, firmó el dictamen sin modificaciones para que la norma no volviera a Diputados antes del cierre de las sesiones ordinarias, el 30 de noviembre.</p>",
+      "fuentes": [
+        {
+          "medio": "Perfil",
+          "url": "https://www.perfil.com/politica/discapacidad-el-senado-aprobo-por-unanimidad-la-ley-con-las-modificaciones-reclamadas-por-la-oposicion.-aDCMV1g8TxqC"
+        },
+        {
+          "medio": "Página/12",
+          "url": "https://www.pagina12.com.ar/2026/11/20/ley-de-discapacidad-las-organizaciones-acompanaron-el-tratamiento-y-celebraron-la-sancion/"
+        },
+        {
+          "medio": "Página/12",
+          "url": "https://www.pagina12.com.ar/2026/11/20/un-voto-unanime-fruto-de-la-movilizacion-y-la-lucha/"
+        }
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/11074315/pexels-photo-11074315.jpeg",
+        "credito": "Jakub Pabis / Pexels"
+      }
+    },
+    {
+      "id": "2026-11-20-economia-1",
+      "fecha": "2026-11-20",
+      "seccion": "ECONOMIA",
+      "titulo": "El desempleo golpea a los jóvenes: 28% de desocupación en la economía popular",
+      "bajada": "Un informe del CITRA señala que 846 mil personas de hasta 29 años trabajan en la economía popular, la mayoría con pocas horas e ingresos bajos y casi sin ayuda del Estado.",
+      "cuerpo": "<p>La falta de trabajo pega con más fuerza entre los más jóvenes. Un informe del Centro de Innovación de los Trabajadores (CITRA), vinculado al CONICET y a la UNMET, calculó que entre los menores de 29 años que forman parte de la economía popular la desocupación llega al 28%, frente al 7,5% que registran los adultos de más de 30, según difundió Elonce.</p><p>El trabajo toma datos del primer trimestre de 2026. En ese período, 846 mil personas de hasta 29 años integraban la economía popular, lo que representa el 24,4% de la población económicamente activa joven.</p><h2>Pocas horas y bajos ingresos</h2><p>La forma de trabajo más extendida entre esos jóvenes es la del cuentapropista no profesional, con poco capital propio: alrededor del 60% del total. Dentro de ese grupo, el 60,5% está subocupado, es decir, trabaja menos horas de las que necesita; el 31,2% tiene jornadas excesivas y el 8,3% no trabajó en la semana relevada.</p><p>En cuanto a los ingresos, el 90,9% de los jóvenes de la economía popular, unas 769 mil personas, cobra como máximo tres salarios mínimos, vitales y móviles. En el conjunto de la población activa joven esa proporción es del 74,9%.</p><p>El informe subraya además que solo el 17,6% de los jóvenes del sector recibe algún tipo de asistencia estatal. Entre quienes sí la reciben, casi la mitad son asalariados no profesionales sin registración formal.</p><p>El documento del CITRA advierte, además, que la insuficiencia de horas de trabajo tiene mayor incidencia entre los jóvenes y las mujeres.</p>",
+      "fuentes": [
+        {
+          "medio": "Elonce",
+          "url": "https://www.elonce.com/economia/la-desocupacion-afecta-mas-a-los-menores-de-29-anos.htm"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-sociedad-1",
+      "fecha": "2026-11-20",
+      "seccion": "SOCIEDAD",
+      "titulo": "Día de la Soberanía Nacional: se recuerda la Vuelta de Obligado y el feriado pasa al lunes 23",
+      "bajada": "Este viernes es día hábil: el descanso por la gesta de 1845 en el río Paraná se traslada al lunes y arma un fin de semana largo de tres días.",
+      "cuerpo": "<p>Cada 20 de noviembre la Argentina recuerda el Día de la Soberanía Nacional, en homenaje a la resistencia de las fuerzas de la Confederación frente a la escuadra anglofrancesa en la Vuelta de Obligado, sobre el río Paraná, en 1845. Este año el feriado no cae hoy: se traslada al lunes 23, según informaron Elonce y Diario News Media.</p><h2>Un fin de semana largo</h2><p>La ley 27.399 establece que los feriados trasladables que caen jueves o viernes pasan al lunes siguiente, y los de martes o miércoles, al lunes anterior. Por eso el viernes 20 es un día laborable y quienes no trabajan los fines de semana tendrán descanso del sábado 21 al lunes 23.</p><p>De acuerdo con Elonce, el feriado alcanza a trabajadores públicos y privados de todo el país, salvo los servicios esenciales, y quienes deban trabajar ese día cobran como feriado trabajado.</p><h2>La gesta de Obligado</h2><p>El 20 de noviembre de 1845, cerca de la actual San Pedro, en la provincia de Buenos Aires, tropas al mando del general Lucio Norberto Mansilla, por orden de Juan Manuel de Rosas, enfrentaron a una poderosa flota británica y francesa que pretendía navegar libremente los ríos interiores. Los defensores montaron baterías en la costa y tendieron gruesas cadenas de orilla a orilla sostenidas por embarcaciones.</p><p>Pese a la superioridad militar y técnica de los europeos, que lograron pasar tras un duro combate con muchas bajas criollas, el episodio quedó como un símbolo de la defensa del territorio. Las negociaciones posteriores terminaron con el reconocimiento de los derechos argentinos sobre la navegación de sus ríos.</p><p>La fecha fue instituida por la ley 20.770, sancionada en 1974 durante la presidencia de María Estela Martínez de Perón, y se incorporó al calendario de feriados nacionales en 2010.</p>",
+      "fuentes": [
+        {
+          "medio": "Elonce",
+          "url": "https://www.elonce.com/sociedad/argentina-conmemora-el-dia-de-la-soberania-nacional.htm"
+        },
+        {
+          "medio": "Diario News Media",
+          "url": "https://diarionewsmedia.com/feriado-20-noviembre-traslado-lunes-23-dia-soberania-nacional/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-mundo-1",
+      "fecha": "2026-11-20",
+      "seccion": "MUNDO",
+      "titulo": "La Corte Internacional de Justicia declaró por primera vez a un Estado culpable de genocidio",
+      "bajada": "El tribunal de la ONU resolvió que Myanmar cometió genocidio contra la minoría rohinyá y le ordenó permitir el regreso de los desplazados, juzgar a los responsables y pagar reparaciones.",
+      "cuerpo": "<p>La Corte Internacional de Justicia (CIJ), el máximo tribunal de las Naciones Unidas, dictaminó este jueves en La Haya que Myanmar cometió genocidio contra la minoría musulmana rohinyá. Es la primera vez que esa corte declara a un Estado responsable de ese crimen, según informó La Nación con datos de las agencias AFP, AP y Reuters.</p><p>El caso había sido presentado por Gambia en 2019. Tras una lectura de unas tres horas, el presidente del tribunal, Yuji Iwasawa, afirmó que Myanmar \"ha cometido un genocidio\" y que la única deducción razonable de las pruebas era la intención de destruir al grupo.</p><h2>Lo que ordenó el tribunal</h2><p>La Corte dispuso que Myanmar permita y facilite el regreso de los rohinyás de forma voluntaria, segura y digna, que investigue y castigue a los sospechosos y que pague reparaciones, cuyo monto se definirá más adelante. Sin embargo, el tribunal no tiene medios propios para hacer cumplir sus fallos.</p><p>Según La Nación, durante la represión de 2017 unos 750.000 rohinyás huyeron a Bangladesh y alrededor de 10.000 fueron asesinados por las fuerzas de seguridad, que destruyeron aldeas enteras. Myanmar siempre negó las acusaciones y sostuvo que actuó contra una insurgencia.</p><h2>Reacciones</h2><p>El secretario general de la ONU, António Guterres, celebró la decisión y pidió garantizar el retorno de los desplazados, mientras que el alto comisionado para los Derechos Humanos, Volker Türk, la calificó como un \"punto de inflexión\". Entre los sobrevivientes, una joven rohinyá resumió su reclamo en dos palabras: \"Quiero justicia\".</p><p>El medio recordó además que en la Argentina tramita una causa por estos hechos bajo el principio de jurisdicción universal.</p>",
+      "fuentes": [
+        {
+          "medio": "La Nación",
+          "url": "https://www.lanacion.com.ar/el-mundo/el-maximo-tribunal-internacional-de-justicia-dictamino-por-primera-vez-que-un-estado-cometio-nid19112026/"
+        }
+      ]
+    }
+  ]
 }
