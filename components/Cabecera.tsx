@@ -11,7 +11,15 @@ export default function Cabecera({ seccionActual }: { seccionActual?: string }) 
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="flex items-center justify-between gap-4 border-b border-white/10 py-2.5 font-sans text-xs text-white/65 sm:text-[0.8rem]">
             <Fecha />
-            <span className="hidden sm:inline">Diario digital de Entre Ríos</span>
+            <div className="flex items-center gap-5">
+              <span className="hidden sm:inline">Diario digital de Entre Ríos</span>
+              <Link
+                href="/admin/login"
+                className="rounded border border-oro/60 px-2.5 py-1 font-medium text-oro transition-colors hover:bg-oro hover:text-tinta-honda"
+              >
+                Redacción
+              </Link>
+            </div>
           </div>
 
           <Link

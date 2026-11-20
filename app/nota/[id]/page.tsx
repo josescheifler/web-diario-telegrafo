@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import prisma from '@/lib/prisma'
+import { sincronizarSugerencias } from '@/lib/sugerencias'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import Cabecera from '@/components/Cabecera'
@@ -18,6 +19,7 @@ type Params = { params: Promise<{ id: string }> }
 // Título, descripción e imagen para buscadores y para cuando se comparte en WhatsApp o redes
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params
+  await sincronizarSugerencias()
   const nota = await prisma.article
     .findUnique({ where: { id }, select: { title: true, header: true, featuredImage: true, published: true } })
     .catch(() => null)
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 async function DetalleNota({ params }: Params) {
   const { id } = await params
 
+  await sincronizarSugerencias()
   const article = await prisma.article.findUnique({
     where: { id },
     include: { author: true },

@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import {
-  crearNota, getAutores, crearAutor, getNotas, borrarNota, borrarAutor, logoutAdmin,
+  crearNota, getAutores, crearAutor, getNotas, borrarNota, borrarAutor, logoutAdmin, getNota, actualizarNota,
   getAnuncios, guardarAnuncio, cambiarEstadoAnuncio, borrarAnuncio,
   type ActionResult,
 } from '../actions'
 import { AD_LOCATIONS, adLocationLabel, isEmbedAd } from '@/lib/ads'
 import Link from 'next/link'
 import MensajesTab from './MensajesTab'
+import AutomaticasTab from './AutomaticasTab'
 import { SECCIONES, nombreSeccion } from '@/lib/secciones'
 import dynamic from 'next/dynamic'
 
@@ -18,7 +19,8 @@ const Editor = dynamic(() => import('@/components/Editor'), { ssr: false })
 type Autor = { id: string; name: string; bio: string | null; profilePic: string | null }
 type Nota = { id: string; title: string; section: string; author: { name: string } | null }
 type Anuncio = { id: string; name: string; adCode: string; location: string; isActive: boolean }
-type Tab = 'notas' | 'autores' | 'publicidad' | 'mensajes'
+type Tab = 'notas' | 'automaticas' | 'autores' | 'publicidad' | 'mensajes'
+type NotaEditada = { id: string; title: string; header: string; section: string; featuredImage: string; authorId: string }
 type Mensaje = { tipo: 'ok' | 'error'; texto: string }
 type ModoAnuncio = 'imagen' | 'codigo'
 
@@ -74,6 +76,7 @@ export default function AdminDashboard() {
   const [anuncio, setAnuncio] = useState<FormAnuncio>(ANUNCIO_VACIO)
   const [mensaje, setMensaje] = useState<Mensaje | null>(null)
   const [sinLeer, setSinLeer] = useState<number | null>(null)
+  const [editando, setEditando] = useState<NotaEditada | null>(null)
 
   const cargarDatos = useCallback(() => {
     getAutores().then(setAutores).catch(() => {})
@@ -110,6 +113,31 @@ export default function AdminDashboard() {
   const cambiarTab = (tab: Tab) => {
     setActiveTab(tab)
     setMensaje(null)
+  }
+
+  const limpiarFormularioNota = () => {
+    setEditando(null)
+    setContenido('')
+    setEditorKey((k) => k + 1) // vacía el editor
+  }
+
+  const handleEditarNota = async (id: string) => {
+    setActiveTab('notas')
+    setMensaje(null)
+    try {
+      const nota = await getNota(id)
+      if (!nota) {
+        setMensaje({ tipo: 'error', texto: 'La nota ya no existe.' })
+        return
+      }
+      const { content, ...campos } = nota
+      setEditando(campos)
+      setContenido(content)
+      setEditorKey((k) => k + 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch {
+      setMensaje({ tipo: 'error', texto: 'No se pudo abrir la nota. Probá de nuevo.' })
+    }
   }
 
   const handleBorrarNota = async (id: string) => {
@@ -181,6 +209,12 @@ export default function AdminDashboard() {
           Notas ({notas.length})
         </button>
         <button
+          onClick={() => cambiarTab('automaticas')}
+          className={`py-4 ${activeTab === 'automaticas' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
+        >
+          Automáticas
+        </button>
+        <button
           onClick={() => cambiarTab('autores')}
           className={`py-4 ${activeTab === 'autores' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
         >
@@ -192,8 +226,8 @@ export default function AdminDashboard() {
         >
           Publicidad ({anuncios.length})
         </button>
-        <button 
-          onClick={() => cambiarTab('mensajes')} 
+        <button
+          onClick={() => cambiarTab('mensajes')}
           className={`py-4 ${activeTab === 'mensajes' ? 'border-b-2 border-[#D4AF37] text-[#0a192f]' : 'text-gray-400'}`}
         >
           Mensajes{sinLeer ? ` (${sinLeer} sin leer)` : ''}
@@ -226,21 +260,32 @@ export default function AdminDashboard() {
               onSubmit={async (e) => {
                 e.preventDefault()
                 const form = e.currentTarget
-                const ok = await ejecutar(() => crearNota(new FormData(form), contenido), 'Nota publicada con éxito.')
+                const datos = new FormData(form)
+                const ok = editando
+                  ? await ejecutar(() => actualizarNota(editando.id, datos, contenido), 'Cambios guardados.')
+                  : await ejecutar(() => crearNota(datos, contenido), 'Nota publicada con éxito.')
                 if (ok) {
                   form.reset()
-                  setContenido('')
-                  setEditorKey((k) => k + 1) // vacía el editor
+                  limpiarFormularioNota()
                 }
               }}
+              key={editando?.id ?? 'nueva'}
               className="lg:col-span-7 flex flex-col gap-4 bg-white p-6 border border-gray-300 shadow-sm"
             >
-              <h2 className="text-lg font-bold border-b pb-2">Redactar Nueva Nota</h2>
+              <div className="flex items-center justify-between gap-4 border-b pb-2">
+                <h2 className="text-lg font-bold">{editando ? 'Editar Nota' : 'Redactar Nueva Nota'}</h2>
+                {editando && (
+                  <button type="button" onClick={limpiarFormularioNota} className="text-xs font-bold border border-gray-300 px-3 py-1 hover:bg-gray-50">
+                    Cancelar edición
+                  </button>
+                )}
+              </div>
 
               <input
                 name="title"
                 type="text"
                 placeholder="Título de la nota"
+                defaultValue={editando?.title}
                 required
                 className={inputClass}
               />
@@ -248,19 +293,20 @@ export default function AdminDashboard() {
                 name="header"
                 type="text"
                 placeholder="Encabezado / Bajada"
+                defaultValue={editando?.header}
                 required
                 className={inputClass}
               />
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <select name="section" required className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
+                <select name="section" required defaultValue={editando?.section ?? ''} className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
                   <option value="">Sección...</option>
                   {SECCIONES.map((sec) => (
                     <option key={sec.valor} value={sec.valor}>{sec.nombre}</option>
                   ))}
                 </select>
 
-                <select name="authorId" required className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
+                <select name="authorId" required defaultValue={editando?.authorId ?? ''} className="p-3 border border-gray-300 sm:w-1/3 outline-none bg-white">
                   <option value="">Autor...</option>
                   {autores.map((a) => (
                     <option key={a.id} value={a.id}>{a.name}</option>
@@ -270,8 +316,8 @@ export default function AdminDashboard() {
                 <input
                   name="featuredImage"
                   type="url"
-                  placeholder="URL Imagen Principal"
-                  required
+                  placeholder="URL de la imagen (opcional)"
+                  defaultValue={editando?.featuredImage}
                   className="p-3 border border-gray-300 sm:w-1/3 outline-none"
                 />
               </div>
@@ -282,7 +328,7 @@ export default function AdminDashboard() {
               </div>
 
               <button type="submit" className={`${primaryButtonClass} mt-4`}>
-                Publicar Nota
+                {editando ? 'Guardar Cambios' : 'Publicar Nota'}
               </button>
             </form>
 
@@ -300,12 +346,28 @@ export default function AdminDashboard() {
                         <h4 className="font-bold text-sm leading-snug">{n.title}</h4>
                         <p className="text-xs text-gray-500 mt-1">Por {n.author?.name || 'Redacción'}</p>
                       </div>
-                      <button
-                        onClick={() => handleBorrarNota(n.id)}
-                        className="bg-red-700 text-white text-xs px-2 py-1 hover:bg-red-800 transition shrink-0"
-                      >
-                        Borrar
-                      </button>
+                      <div className="flex flex-col gap-1 shrink-0 text-xs">
+                        <button
+                          onClick={() => handleEditarNota(n.id)}
+                          className="border border-gray-300 px-2 py-1 font-bold hover:bg-gray-50 transition"
+                        >
+                          Editar
+                        </button>
+                        <a
+                          href={`/nota/${n.id}/instagram`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="border border-gray-300 px-2 py-1 font-bold text-center hover:bg-gray-50 transition"
+                        >
+                          Instagram
+                        </a>
+                        <button
+                          onClick={() => handleBorrarNota(n.id)}
+                          className="bg-red-700 text-white px-2 py-1 hover:bg-red-800 transition"
+                        >
+                          Borrar
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -385,6 +447,9 @@ export default function AdminDashboard() {
 
           </div>
         )}
+
+        {/* TAB NOTAS AUTOMÁTICAS */}
+        {activeTab === 'automaticas' && <AutomaticasTab onEditar={handleEditarNota} />}
 
         {/* TAB MENSAJES */}
         {activeTab === 'mensajes' && <MensajesTab onSinLeer={setSinLeer} />}

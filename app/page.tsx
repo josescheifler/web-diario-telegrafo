@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import prisma from '@/lib/prisma'
+import { sincronizarSugerencias } from '@/lib/sugerencias'
 import { Suspense } from 'react'
 import Cabecera from '@/components/Cabecera'
 import AdSlot from '@/components/AdSlot'
@@ -25,6 +26,7 @@ function EspacioPublicitario() {
 }
 
 async function Portada() {
+  await sincronizarSugerencias()
   const notas = await prisma.article.findMany({
     where: { published: true },
     orderBy: { createdAt: 'desc' },

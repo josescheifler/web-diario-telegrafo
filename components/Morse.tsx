@@ -1,7 +1,7 @@
 // El nombre del diario, escrito en código Morse. Se usa como filete bajo la
 // cabecera y, con la señal "fin de mensaje", como cierre de cada nota.
 
-const CODIGO: Record<string, string> = {
+export const CODIGO: Record<string, string> = {
   A: '.-', B: '-...', C: '-.-.', D: '-..', E: '.', F: '..-.', G: '--.', H: '....', I: '..',
   J: '.---', K: '-.-', L: '.-..', M: '--', N: '-.', O: '---', P: '.--.', Q: '--.-', R: '.-.',
   S: '...', T: '-', U: '..-', V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..',
