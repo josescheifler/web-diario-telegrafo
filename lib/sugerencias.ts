@@ -54,7 +54,7 @@ export function htmlDeFuentes(fuentes: Fuente[], foto: Foto | null = null): stri
     const enlaces = citadas.map((f) => `<a href="${escapeHtml(f.url)}">${escapeHtml(f.medio)}</a>`).join(', ')
     partes.push(`${citadas.length > 1 ? 'Fuentes' : 'Fuente'}: ${enlaces}.`)
   }
-  if (foto) partes.push(`Foto: ${escapeHtml(foto.credito)}.`)
+  if (foto) partes.push(`Foto ilustrativa: ${escapeHtml(foto.credito)}.`)
   return partes.length > 0 ? `<p><em>${partes.join(' ')}</em></p>` : ''
 }
 

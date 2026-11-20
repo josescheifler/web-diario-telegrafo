@@ -91,13 +91,21 @@ La línea editorial nunca cambia los hechos:
   de una o dos oraciones que agregue información al título. Cuerpo de 250 a 450 palabras en 4 a 7
   párrafos; se puede usar un subtítulo `<h2>`.
 - **Fotos.** Nunca se usan fotos de otros medios ni de agencias, aunque se cite la fuente: tienen
-  dueño. Si la nota lo permite, se busca en Wikimedia Commons (https://commons.wikimedia.org) una
-  foto con licencia libre (dominio público, CC0, CC BY o CC BY-SA) de un **lugar, edificio,
-  paisaje u objeto** relacionado: la ciudad, el río, el Congreso, un campo de cultivo. **Nunca
-  fotos de personas reconocibles.** Se abre la página del archivo, se confirma la licencia y el
-  autor, y se usa el enlace directo a la imagen (`https://upload.wikimedia.org/...`, en JPG o PNG,
-  de 1200 px de ancho o más si está disponible). Si no hay una buena, la nota sale sin foto y el
-  sitio muestra una placa con la sección.
+  dueño. Cada nota lleva, si se consigue, una **foto ilustrativa** de un banco de imágenes de uso
+  libre, relacionada con el tema (un campo, una escuela, billetes, una fábrica, una ruta):
+  1. Buscar con WebSearch limitado a `pexels.com` y `unsplash.com` (o Wikimedia Commons para
+     lugares concretos, como una ciudad o un edificio), con palabras en inglés si hace falta.
+  2. Abrir la página de la foto con WebFetch y confirmar que es gratuita (en Unsplash, que **no**
+     sea "Unsplash+") y el nombre del autor. En Wikimedia, que la licencia sea libre.
+  3. Usar el enlace directo a la imagen (`https://images.pexels.com/...`,
+     `https://images.unsplash.com/...` o `https://upload.wikimedia.org/...`), en JPG.
+  4. Crédito: `Nombre del autor / Pexels`, `Nombre del autor / Unsplash` o, en Wikimedia,
+     autor, "Wikimedia Commons" y licencia. El sitio lo muestra como "Foto ilustrativa".
+  - **Nunca figuras públicas ni personas reconocibles** que puedan confundirse con las de la
+    noticia: personas solo si no se les ve la cara o no son el centro (manos, de espaldas, una
+    multitud a lo lejos).
+  - La foto no puede contradecir la nota (nada de nieve en una nota de sequía).
+  - Si no hay una buena, la nota sale sin foto y el sitio muestra la placa de la sección.
 - **Sin repetir.** Antes de escribir, revisar los títulos de los últimos días en el archivo: no
   se publica dos veces el mismo hecho, salvo que haya una novedad real.
 
@@ -116,7 +124,7 @@ La línea editorial nunca cambia los hechos:
       "bajada": "…",
       "cuerpo": "<p>…</p><p>…</p><h2>…</h2><p>…</p>",
       "fuentes": [{ "medio": "La Región Digital", "url": "https://regiondigital.com.ar/…", "citar": false }],
-      "foto": { "url": "https://upload.wikimedia.org/…", "credito": "Nombre del autor / Wikimedia Commons, CC BY-SA 4.0" }
+      "foto": { "url": "https://images.pexels.com/…", "credito": "Nombre del autor / Pexels" }
     }
   ]
 }
@@ -129,9 +137,9 @@ La línea editorial nunca cambia los hechos:
   `<blockquote>`, `<br>` y `<a href="https://…">`, sin otros atributos. Al menos 3 párrafos.
 - `fuentes`: de 1 a 5, con el nombre del medio y el enlace a la nota original. `"citar": false`
   para La Región Digital (no aparece en el sitio); el resto se cita.
-- `foto` (opcional): solo de `upload.wikimedia.org`, con el crédito tal como lo pide la licencia
-  (autor, "Wikimedia Commons" y licencia). El sitio lo muestra al pie de la nota y en la imagen
-  para Instagram.
+- `foto` (opcional): solo de `images.pexels.com`, `images.unsplash.com` o
+  `upload.wikimedia.org`, con el crédito. El sitio lo muestra al pie de la nota y en la imagen
+  para Instagram como "Foto ilustrativa".
 - Las notas nuevas se agregan al principio. Se borran las de más de 10 días.
 - El sitio solo publica notas de los últimos 3 días.
 
