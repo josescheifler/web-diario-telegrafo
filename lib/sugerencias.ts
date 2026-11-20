@@ -33,14 +33,49 @@ export type Sugerencia = {
 export type EstadoSugerencia = 'PENDIENTE' | 'PUBLICADA' | 'DESCARTADA'
 
 let cache: Sugerencia[] | null = null
+let cacheRetiradas: string[] = []
 
 /** Las notas válidas del archivo. Las mal armadas se omiten (y se avisa en el log). */
 export function leerSugerencias(): Sugerencia[] {
   if (cache) return cache
-  const { notas, errores } = validarSugerencias(datos as unknown)
+  const { notas, retiradas, errores } = validarSugerencias(datos as unknown)
   if (errores.length > 0) console.warn('Notas automáticas omitidas por estar mal armadas:', errores)
   cache = notas
+  cacheRetiradas = retiradas
   return cache
+}
+
+/** Ids de notas automáticas que el archivo pide bajar del sitio. */
+export function leerRetiradas(): string[] {
+  leerSugerencias()
+  return cacheRetiradas
+}
+
+/**
+ * Baja del sitio las notas automáticas listadas en "retiradas" y las marca como descartadas,
+ * para que no vuelvan a publicarse. Solo borra notas creadas por la publicación automática.
+ */
+async function aplicarRetiradas(): Promise<void> {
+  const retiradas = leerRetiradas()
+  if (retiradas.length === 0) return
+  await asegurarTablaSugerencias()
+  const estados = await prisma.suggestionStatus.findMany({
+    where: { id: { in: retiradas } },
+    select: { id: true, status: true, articleId: true },
+  })
+  const porId = new Map(estados.map((e) => [e.id, e]))
+  for (const id of retiradas) {
+    const estado = porId.get(id)
+    if (estado?.status === 'DESCARTADA') continue
+    if (estado?.status === 'PUBLICADA' && estado.articleId) {
+      await prisma.article.deleteMany({ where: { id: estado.articleId } })
+    }
+    await prisma.suggestionStatus.upsert({
+      where: { id },
+      create: { id, status: 'DESCARTADA', articleId: null },
+      update: { status: 'DESCARTADA', articleId: null },
+    })
+  }
 }
 
 /**
@@ -125,6 +160,7 @@ export async function sincronizarSugerencias(): Promise<void> {
 
   sincronizando = (async () => {
     try {
+      await aplicarRetiradas()
       const vigentes = leerSugerencias().filter((s) => esVigente(s.fecha))
       if (vigentes.length === 0) return
 

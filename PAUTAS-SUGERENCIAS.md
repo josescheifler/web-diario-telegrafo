@@ -21,7 +21,8 @@ diario (ver más abajo):
 | `SOCIEDAD` | 1 | Educación, salud, cultura, comunidad, servicios, clima. |
 
 Si para una sección no hay una noticia confirmada y de interés, **no se escribe**. Nunca se
-rellena.
+rellena. Para `LOCAL`, si no hay hechos de las últimas 36 horas, se puede tomar uno de los
+últimos 7 días que el diario todavía no haya publicado, o un evento próximo de la zona ya anunciado.
 
 ## Dónde buscar
 
@@ -150,6 +151,10 @@ La línea editorial nunca cambia los hechos:
   `upload.wikimedia.org`, con el crédito. El sitio lo muestra al pie de la nota y en la imagen
   para Instagram como "Foto ilustrativa".
 - Las notas nuevas se agregan al principio. Se borran las de más de 10 días.
+- `retiradas` (opcional, al principio del archivo): lista de ids de notas ya publicadas que hay que
+  bajar del sitio, por ejemplo porque se rehicieron. El sitio las borra y no las vuelve a publicar.
+  Una nota rehecha va con un id nuevo (`2026-11-20-pais-2`), nunca con el de la retirada. Los ids
+  se pueden sacar de `retiradas` después de 10 días.
 - El sitio solo publica notas de los últimos 3 días.
 
 Antes de subir, correr `npm run validar-sugerencias` (o `node scripts/validar-sugerencias.mjs`,

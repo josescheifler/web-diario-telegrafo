@@ -12,7 +12,7 @@ try {
   process.exit(1)
 }
 
-const { notas, errores } = validarSugerencias(datos)
+const { notas, retiradas, errores } = validarSugerencias(datos)
 if (errores.length > 0) {
   console.error(`Hay ${errores.length} problema(s):`)
   for (const error of errores) console.error(`- ${error}`)
@@ -21,5 +21,5 @@ if (errores.length > 0) {
 
 const porFecha = {}
 for (const nota of notas) porFecha[nota.fecha] = (porFecha[nota.fecha] ?? 0) + 1
-console.log(`OK: ${notas.length} sugerencias válidas.`)
+console.log(`OK: ${notas.length} sugerencias válidas${retiradas.length ? ` y ${retiradas.length} retirada(s)` : ''}.`)
 for (const [fecha, cantidad] of Object.entries(porFecha).sort().reverse()) console.log(`  ${fecha}: ${cantidad}`)
