@@ -111,56 +111,69 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   const credito = foto ? nota.content.match(/Foto ilustrativa: ([^<]+?)\.?<\/em>/)?.[1]?.trim() ?? null : null
 
   const largo = nota.title.length
-  const tamTitulo = foto ? (largo <= 60 ? 68 : largo <= 100 ? 58 : 50) : largo <= 60 ? 96 : largo <= 100 ? 80 : 66
+  const tamTitulo = foto ? (largo <= 60 ? 84 : largo <= 100 ? 70 : 58) : largo <= 60 ? 96 : largo <= 100 ? 80 : 66
+
+  // Pie común: crédito de la foto, filete en Morse y nombre del diario
+  const pie = (
+    <div style={{ display: 'flex', flexDirection: 'column', padding: '0 80px 64px' }}>
+      {credito && (
+        <div style={{ fontFamily: 'Archivo', fontWeight: 500, fontSize: 20, color: 'rgba(255,255,255,0.6)', marginBottom: 22 }}>
+          Foto ilustrativa: {recortar(credito, 80)}
+        </div>
+      )}
+      <FiletMorse ancho={ANCHO - 160} />
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 30 }}>
+        <div style={{ fontFamily: 'Bodoni', fontSize: 52, letterSpacing: -1.5 }}>El Telégrafo</div>
+        <div style={{ fontFamily: 'Bodoni', fontStyle: 'italic', fontSize: 34, color: ORO }}>de Los Charrúas</div>
+      </div>
+    </div>
+  )
+
+  const seccion = (
+    <div style={{ fontFamily: 'Archivo', fontWeight: 600, fontSize: 32, color: ORO }}>{nombreSeccion(nota.section)}</div>
+  )
+  const titulo = (
+    <div style={{ marginTop: 22, fontFamily: 'Bodoni', fontSize: tamTitulo, lineHeight: 1.04, letterSpacing: -tamTitulo * 0.025 }}>
+      {recortar(nota.title, 150)}
+    </div>
+  )
 
   return new ImageResponse(
-    (
-      <div style={{ width: ANCHO, height: ALTO, display: 'flex', flexDirection: 'column', background: TINTA, color: '#ffffff' }}>
-        {foto && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={foto} alt="" width={ANCHO} height={600} style={{ width: ANCHO, height: 600, objectFit: 'cover' }} />
-        )}
-
+    foto ? (
+      // Con foto: la foto ocupa todo el fondo y el texto va abajo, sobre un degradé oscuro
+      <div style={{ width: ANCHO, height: ALTO, display: 'flex', position: 'relative', background: TINTA, color: '#ffffff' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={foto} alt="" width={ANCHO} height={ALTO} style={{ position: 'absolute', top: 0, left: 0, width: ANCHO, height: ALTO, objectFit: 'cover' }} />
         <div
           style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: foto ? 'flex-start' : 'center',
-            padding: foto ? '56px 80px 0' : '0 80px',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: ANCHO,
+            height: ALTO,
+            backgroundImage:
+              'linear-gradient(to bottom, rgba(8,20,36,0.35) 0%, rgba(8,20,36,0.10) 22%, rgba(8,20,36,0.55) 48%, rgba(8,20,36,0.93) 70%, rgba(8,20,36,1) 100%)',
           }}
-        >
-          <div style={{ fontFamily: 'Archivo', fontWeight: 600, fontSize: 32, color: ORO }}>{nombreSeccion(nota.section)}</div>
-          <div
-            style={{
-              marginTop: 22,
-              fontFamily: 'Bodoni',
-              fontSize: tamTitulo,
-              lineHeight: 1.04,
-              letterSpacing: -tamTitulo * 0.025,
-            }}
-          >
-            {recortar(nota.title, 150)}
+        />
+        <div style={{ position: 'absolute', top: 0, left: 0, width: ANCHO, height: ALTO, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', padding: '0 80px 48px' }}>
+            {seccion}
+            {titulo}
           </div>
-          {!foto && (
-            <div style={{ marginTop: 40, fontFamily: 'Archivo', fontWeight: 500, fontSize: 34, lineHeight: 1.4, color: 'rgba(255,255,255,0.72)' }}>
-              {recortar(nota.header, 200)}
-            </div>
-          )}
+          {pie}
         </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', padding: '0 80px 64px' }}>
-          {credito && (
-            <div style={{ fontFamily: 'Archivo', fontWeight: 500, fontSize: 20, color: 'rgba(255,255,255,0.55)', marginBottom: 22 }}>
-              Foto ilustrativa: {recortar(credito, 80)}
-            </div>
-          )}
-          <FiletMorse ancho={ANCHO - 160} />
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 30 }}>
-            <div style={{ fontFamily: 'Bodoni', fontSize: 52, letterSpacing: -1.5 }}>El Telégrafo</div>
-            <div style={{ fontFamily: 'Bodoni', fontStyle: 'italic', fontSize: 34, color: ORO }}>de Los Charrúas</div>
+      </div>
+    ) : (
+      // Sin foto: fondo azul con el título y la bajada
+      <div style={{ width: ANCHO, height: ALTO, display: 'flex', flexDirection: 'column', background: TINTA, color: '#ffffff' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 80px' }}>
+          {seccion}
+          {titulo}
+          <div style={{ marginTop: 40, fontFamily: 'Archivo', fontWeight: 500, fontSize: 34, lineHeight: 1.4, color: 'rgba(255,255,255,0.72)' }}>
+            {recortar(nota.header, 200)}
           </div>
         </div>
+        {pie}
       </div>
     ),
     {

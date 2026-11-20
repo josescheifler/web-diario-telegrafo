@@ -98,7 +98,9 @@ La línea editorial nunca cambia los hechos:
   de una o dos oraciones que agregue información al título. Cuerpo de 250 a 450 palabras en 4 a 7
   párrafos; se puede usar un subtítulo `<h2>`.
 - **Fotos.** Nunca se usan fotos de otros medios ni de agencias, aunque se cite la fuente: tienen
-  dueño. Cada nota lleva, si se consigue, una **foto ilustrativa** de un banco de imágenes de uso
+  dueño. **Todas las notas tienen que llevar foto**: es el fondo de la imagen que sale en Instagram y
+  Facebook. Si no aparece una del tema exacto, buscar una más general que no lo contradiga (un
+  edificio público, un mapa, un paisaje entrerriano, un escritorio con papeles). Cada nota lleva una **foto ilustrativa** de un banco de imágenes de uso
   libre, relacionada con el tema (un campo, una escuela, billetes, una fábrica, una ruta):
   1. Buscar con WebSearch limitado a `pexels.com` y `unsplash.com` (o Wikimedia Commons para
      lugares concretos, como una ciudad o un edificio), con palabras en inglés si hace falta.
@@ -112,7 +114,7 @@ La línea editorial nunca cambia los hechos:
     noticia: personas solo si no se les ve la cara o no son el centro (manos, de espaldas, una
     multitud a lo lejos).
   - La foto no puede contradecir la nota (nada de nieve en una nota de sequía).
-  - Si no hay una buena, la nota sale sin foto y el sitio muestra la placa de la sección.
+  - Solo si de verdad no hay ninguna que sirva, la nota sale sin foto (la imagen para redes queda con fondo azul).
 - **Sin repetir.** Antes de escribir, revisar los títulos de los últimos días en el archivo: no
   se publica dos veces el mismo hecho, salvo que haya una novedad real.
 
