@@ -86,7 +86,11 @@
           "medio": "Elonce",
           "url": "https://www.elonce.com/economia/la-desocupacion-afecta-mas-a-los-menores-de-29-anos.htm"
         }
-      ]
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/9841329/pexels-photo-9841329.jpeg",
+        "credito": "Ron Lach / Pexels"
+      }
     },
     {
       "id": "2026-11-20-sociedad-1",
@@ -104,7 +108,11 @@
           "medio": "Diario News Media",
           "url": "https://diarionewsmedia.com/feriado-20-noviembre-traslado-lunes-23-dia-soberania-nacional/"
         }
-      ]
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/16117060/pexels-photo-16117060.jpeg",
+        "credito": "Juan Pablo Lancia / Pexels"
+      }
     },
     {
       "id": "2026-11-20-mundo-1",
@@ -118,7 +126,11 @@
           "medio": "La Nación",
           "url": "https://www.lanacion.com.ar/el-mundo/el-maximo-tribunal-internacional-de-justicia-dictamino-por-primera-vez-que-un-estado-cometio-nid19112026/"
         }
-      ]
+      ],
+      "foto": {
+        "url": "https://images.pexels.com/photos/5669619/pexels-photo-5669619.jpeg",
+        "credito": "Sora Shimazaki / Pexels"
+      }
     }
   ]
 }
