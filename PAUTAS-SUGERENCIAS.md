@@ -98,24 +98,25 @@ La línea editorial nunca cambia los hechos:
   primera palabra y los nombres propios, sin signos de exclamación, de 40 a 110 caracteres. Bajada
   de una o dos oraciones que agregue información al título. Cuerpo de 250 a 450 palabras en 4 a 7
   párrafos; se puede usar un subtítulo `<h2>`.
-- **Fotos.** Nunca se usan fotos de otros medios ni de agencias, aunque se cite la fuente: tienen
-  dueño. **Todas las notas tienen que llevar foto**: es el fondo de la imagen que sale en Instagram y
-  Facebook. Si no aparece una del tema exacto, buscar una más general que no lo contradiga (un
-  edificio público, un mapa, un paisaje entrerriano, un escritorio con papeles). Cada nota lleva una **foto ilustrativa** de un banco de imágenes de uso
-  libre, relacionada con el tema (un campo, una escuela, billetes, una fábrica, una ruta):
-  1. Buscar con WebSearch limitado a `pexels.com` y `unsplash.com` (o Wikimedia Commons para
-     lugares concretos, como una ciudad o un edificio), con palabras en inglés si hace falta.
-  2. Abrir la página de la foto con WebFetch y confirmar que es gratuita (en Unsplash, que **no**
-     sea "Unsplash+") y el nombre del autor. En Wikimedia, que la licencia sea libre.
-  3. Usar el enlace directo a la imagen (`https://images.pexels.com/...`,
-     `https://images.unsplash.com/...` o `https://upload.wikimedia.org/...`), en JPG.
-  4. Crédito: `Nombre del autor / Pexels`, `Nombre del autor / Unsplash` o, en Wikimedia,
-     autor, "Wikimedia Commons" y licencia. El sitio lo muestra como "Foto ilustrativa".
-  - **Nunca figuras públicas ni personas reconocibles** que puedan confundirse con las de la
-    noticia: personas solo si no se les ve la cara o no son el centro (manos, de espaldas, una
-    multitud a lo lejos).
-  - La foto no puede contradecir la nota (nada de nieve en una nota de sequía).
-  - Solo si de verdad no hay ninguna que sirva, la nota sale sin foto (la imagen para redes queda con fondo azul).
+- **Fotos.** **Todas las notas llevan foto**: es el fondo de la imagen que sale en Instagram y
+  Facebook. Por decisión del director del diario, José Scheifler, que asume la responsabilidad
+  (21/11/2026), **se usa la foto de la nota original del medio que se cita** (la de `og:image`),
+  porque muestra el lugar y la gente de la noticia. Las fotos genéricas de bancos extranjeros
+  (aulas europeas, aviones de otras aerolíneas, campos de otros países) **no se usan más**: el
+  criterio es cuidar la región de la que se habla.
+  1. Abrir la nota original con WebFetch y tomar la URL de `og:image` tal como está (completa,
+     con sus parámetros). Preferir JPG o PNG: si el medio solo da WebP, servir igual (en la web se
+     ve; la imagen para redes puede quedar sin fondo).
+  2. Si la nota original no tiene foto o es un logo, usar la de otra fuente citada sobre el mismo
+     hecho. La Región Digital no se usa ni para fotos.
+  3. Crédito: el fotógrafo y el medio si figuran (`Sofía Areco / Comunicación Senado, vía La
+     Nación`), o solo el medio (`Foto: El Heraldo`). En las notas cargadas por el panel va al pie,
+     en el párrafo de fuentes: "Foto: …".
+  4. Si ninguna fuente tiene foto, recién ahí una foto libre de la región (Wikimedia Commons de
+     Concordia, Entre Ríos o Argentina; Pexels/Unsplash solo si muestra algo que podría estar acá).
+  - Cuidado con menores: si la foto muestra chicos identificables en un hecho negativo
+    (policiales, accidentes, conflictos), no se usa.
+  - La foto no puede contradecir la nota.
 - **Sin repetir.** Antes de escribir, revisar los títulos de los últimos días en el archivo: no
   se publica dos veces el mismo hecho, salvo que haya una novedad real.
 
@@ -147,7 +148,7 @@ La línea editorial nunca cambia los hechos:
   `<blockquote>`, `<br>` y `<a href="https://…">`, sin otros atributos. Al menos 3 párrafos.
 - `fuentes`: de 1 a 5, con el nombre del medio y el enlace a la nota original. `"citar": false`
   para La Región Digital (no aparece en el sitio); el resto se cita.
-- `foto` (opcional): solo de `images.pexels.com`, `images.unsplash.com` o
+- `foto` (opcional): la de la nota original (cualquier `https://`), o de `images.pexels.com`, `images.unsplash.com` o
   `upload.wikimedia.org`, con el crédito. El sitio lo muestra al pie de la nota y en la imagen
   para Instagram como "Foto ilustrativa".
 - Las notas nuevas se agregan al principio. Se borran las de más de 10 días.
