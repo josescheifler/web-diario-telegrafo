@@ -105,8 +105,17 @@ La línea editorial nunca cambia los hechos:
   (aulas europeas, aviones de otras aerolíneas, campos de otros países) **no se usan más**: el
   criterio es cuidar la región de la que se habla.
   1. Abrir la nota original con WebFetch y tomar la URL de `og:image` tal como está (completa,
-     con sus parámetros). Preferir JPG o PNG: si el medio solo da WebP, servir igual (en la web se
-     ve; la imagen para redes puede quedar sin fondo).
+     con sus parámetros). Tiene que ser JPG o PNG: la imagen para redes no arma WebP ni fotos
+     que el medio no deja bajar.
+  - **Si la foto es incompatible** (WebP, no carga, o la imagen para redes
+    `/nota/<id>/instagram` sale sin foto), no se deja así:
+    a. Buscar la misma foto en JPG/PNG (otra versión del medio, o la que sirve su CDN, por
+       ejemplo las de El Heraldo vía `cdnartic.ar/.../filters:format(jpeg)...`).
+    b. Si no, una foto similar del mismo tema en otro medio (sirve una de archivo: por ejemplo la
+       bandera de AMET para un paro de AMET). Crédito con "(archivo)".
+    c. Si se pudo descargar el archivo, convertirlo a JPG y subirlo a `fotos/` de la rama
+       `redaccion` (nunca a main), usando `https://raw.githubusercontent.com/josescheifler/web-diario-telegrafo/redaccion/fotos/<archivo>.jpg`.
+    Después volver a mirar `/nota/<id>/instagram` hasta que salga con foto.
   2. Si la nota original no tiene foto o es un logo, usar la de otra fuente citada sobre el mismo
      hecho. La Región Digital no se usa ni para fotos.
   3. Crédito: el fotógrafo y el medio si figuran (`Sofía Areco / Comunicación Senado, vía La
